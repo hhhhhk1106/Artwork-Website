@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>搜索页</title>
+	<link rel="stylesheet" type="text/css" href="../css/style_searchpage.css">
+</head>
+<body>
+	<header>
+		<nav id="logged-in">
+			<ul>
+				<li><a href="main.html">主页</a></li>
+				<li><a href="info.html">个人中心</a></li>
+				<li><a href="shoppingcart.html">购物车</a></li>
+				<li><a href="issue.html">发布</a></li>
+				<li><a href="#">登出</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		
+		<div class="content">
+			<div class="search">
+                <input type="text" placeholder="塞尔达王国之泪">
+                <button>搜索</button>
+            </div>
+            <div class="choice">
+                <div class="radio-group">
+                    <label><input type="radio" name="search-type" value="name" checked>按名称搜索</label>
+                    <label><input type="radio" name="search-type" value="author">按作者搜索</label>
+                  </div>
+                  <div class="sort-group">
+                    <label>排序方式：</label>
+                    <select name="sort-by">
+                      <option value="price">价格从低到高</option>
+                      <option value="price-desc">价格从高到低</option>
+                      <option value="rating">评价从高到低</option>
+                    </select>
+                  </div>
+            </div>
+			<div class="results">
+			<div class="result">
+				<img src="image/1.jpg" alt="Product Image">
+				<div class="info">
+				  <h2>Product Name</h2>
+				  <p>Product Description</p>
+				</div>
+				<a href="#">View Details</a>
+			  </div>
+			  <div class="result">
+				<img src="image/3.jpg" alt="Product Image">
+				<div class="info">
+				  <h2>Product Name</h2>
+				  <p>Product Description</p>
+				</div>
+				<a href="#">View Details</a>
+			  </div>
+			  <div class="result">
+				<img src="image/7.jpg" alt="Product Image">
+				<div class="info">
+				  <h2>Product Name</h2>
+				  <p>Product Description</p>
+				</div>
+				<a href="#">View Details</a>
+			  </div>
+		    </div>
+			
+		</div>
+	</main>
+	<footer>
+		<p>&copy; 2023 cHui3. All rights reserved.</p>
+	</footer>
+</body>
+</html>

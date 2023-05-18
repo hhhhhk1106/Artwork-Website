@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>评论区</title>
+	<link rel="stylesheet" type="text/css" href="../css/style_comment.css">
+</head>
+<body>
+  <header>
+		<nav id="logged-in">
+			<ul>
+				<li><a href="main.html">主页</a></li>
+				<li><a href="info.html">个人中心</a></li>
+				<li><a href="shoppingcart.html">购物车</a></li>
+				<li><a href="issue.html">发布</a></li>
+				<li><a href="#">登出</a></li>
+			</ul>
+		</nav>
+		<form>
+			<input type="text" placeholder="塞尔达王国之泪">
+			<button type="submit">搜索</button>
+		</form>
+	</header>
+      
+<div class="comment-container">
+    <h3>评论区</h3>
+    <div class="comment-form">
+      <textarea placeholder="写下你的评论..."></textarea>
+      <button>发表评论</button>
+    </div>
+    <div class="comment-list">
+      <div class="comment">
+        <div class="comment-header">
+          <span class="comment-author">abc</span>
+          <span class="comment-date">2023-04-10 10:30</span>
+        </div>
+        <div class="comment-body">
+          <p>p5天下第一</p>
+        </div>
+        <div class="comment-footer">
+          <button class="reply-button">回复</button>
+          <button class="like-button">赞 4</button>
+        </div>
+        <div class="comment-replies">
+          <div class="comment">
+            <div class="comment-header">
+              <span class="comment-author">你说得对但是</span>
+              <span class="comment-date">2023-04-10 11:00</span>
+            </div>
+            <div class="comment-body">
+              <p>塞尔达是天</p>
+            </div>
+            <div class="comment-footer">
+                <button class="reply-button">回复</button>
+                <button class="like-button">赞</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+		<p>&copy; 2023 cHui3. All rights reserved.</p>
+	</footer>
+</body>
+</html>

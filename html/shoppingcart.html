@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>购物车</title>
+  <link rel="stylesheet" href="../css/style_shoppingcart.css">
+</head>
+
+<body>
+  <header>
+		<nav id="logged-in">
+			<ul>
+				<li><a href="main.html">主页</a></li>
+				<li><a href="info.html">个人中心</a></li>
+				<li><a href="shoppingcart.html">购物车</a></li>
+				<li><a href="issue.html">发布</a></li>
+				<li><a href="#">登出</a></li>
+			</ul>
+		</nav>
+		<form>
+			<input type="text" placeholder="塞尔达王国之泪">
+			<button type="submit">搜索</button>
+		</form>
+	</header>
+  <div class="container">
+    <h1>购物车</h1>
+    
+    <div class="cart-item">
+        <img src="image/3.jpg" alt="Product Image" class="cart-item-image">
+        <div class="cart-item-info">
+          <h3 class="cart-item-name">Product Name</h3>
+          <p class="cart-item-description">Product Description</p>
+          <p class="cart-item-price">￥10.00</p>
+          <p class="cart-item-quantity">数量: 1</p>
+          <button class="remove-btn">删除</button>
+        </div>
+      </div>
+      <div class="cart-item">
+        <img src="image/4.jpg" alt="Product Image" class="cart-item-image">
+        <div class="cart-item-info">
+          <h3 class="cart-item-name">Product Name</h3>
+          <p class="cart-item-description">Product Description</p>
+          <p class="cart-item-price">￥10.00</p>
+          <p class="cart-item-quantity">数量: 1</p>
+          <button class="remove-btn">删除</button>
+        </div>
+      </div>
+      
+    <div class="checkout">
+      <div class="total-price">
+        <span>总价：</span>
+        <span class="price">20</span>
+      </div>
+      <button class="checkout-btn">结算</button>
+    </div>
+  </div>
+  <footer>
+		<p>&copy; 2023 cHui3. All rights reserved.</p>
+	</footer>
+</body>
+
+</html>

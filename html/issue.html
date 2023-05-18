@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>商品发布页面</title>
+    <link rel="stylesheet" href="../css/style_issue.css" />
+  </head>
+  <body>
+    <header>
+      <nav id="logged-in">
+        <ul>
+          <li><a href="main.html">主页</a></li>
+				<li><a href="info.html">个人中心</a></li>
+				<li><a href="shoppingcart.html">购物车</a></li>
+				<li><a href="issue.html">发布</a></li>
+				<li><a href="#">登出</a></li>
+        </ul>
+      </nav>
+      <form>
+        <input type="text" placeholder="塞尔达王国之泪">
+        <button type="submit">搜索</button>
+      </form>
+    </header>
+    <main>
+      <form id="product-form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">艺术品名称：</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="author">作者姓名：</label>
+          <input type="text" id="author" name="author" required />
+        </div>
+        <div class="form-group">
+          <label for="era">年份：</label>
+          <input type="text" id="era" name="era" required />
+        </div>
+        <div class="form-group">
+          <label for="genre">流派：</label>
+          <input type="text" id="genre" name="genre" required />
+        </div>
+        <div class="form-group">
+          <label for="size">尺寸：</label>
+          <input type="text" id="size" name="size" required />
+        </div>
+        <div class="form-group">
+          <label for="price">价格：</label>
+          <input type="number" id="price" name="price" required />
+        </div>
+        <div class="form-group">
+          <label for="description">简介：</label>
+          <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">上传图片：</label>
+          <input type="file" id="image" name="image" accept="image/*" required />
+        </div>
+        <div class="form-group">
+          <button type="submit">确认发布</button>
+        </div>
+      </form>
+      <div class="preview">
+        <h2>预览</h2>
+        <div class="image-preview">
+            <img src="image/5.jpg" id="image_preview" alt="Default Image">
+        </div>
+        <div class="preview-details"></div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2023 cHui3. All rights reserved.</p>
+    </footer>
+  </body>
+  <script>
+    document.querySelector("#image").addEventListener("change", function(evt) {
+      var image_src = URL.createObjectURL(this.files[0]);
+      document.getElementById("image_preview").src = image_src;
+      console.log(this.files[0]);
+      console.log(image_src);
+    })
+  </script>
+</html>

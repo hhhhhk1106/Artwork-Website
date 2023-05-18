@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>注册</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style_register.css">
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <h1>注册</h1>
+        <div class="form-control">
+          <label for="username">用户名</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-control">
+          <label for="password">密码</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-control">
+          <label for="password">确认密码</label>
+          <input type="password" id="confirm-password" name="confirm-password" required>
+        </div>
+        <div class="form-control">
+          <label for="email">邮箱</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div class="form-control">
+          <label for="phone">电话</label>
+          <input type="text" id="phone" name="phone">
+        </div>
+        <div class="form-control">
+          <label for="address">地址</label>
+          <input type="text" id="address" name="address">
+        </div>
+        <div class="form-control">
+          <label for="sex">性别</label>
+          <select type="text" id="sex" name="sex">
+            <option disabled selected>请选择</option>
+            <option>男</option>
+            <option>女</option>
+            <option>保密</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="birthday">出生日期</label>
+          <input type="date" id="birthday" name="birthday">
+        </div>
+        <div class="form-control">
+          <label for="nationality">国籍</label>
+          <select type="text" id="nationality" name="nationality">
+            <option disabled selected>请选择</option>
+          </select>
+        </div>
+
+        <button type="submit">注册</button>
+        <div class="form-links">
+          <a href="login.html">已有账号，直接登录</a>
+        </div>
+      </form>
+    </div>
+    <footer>
+      <p>&copy; 2023 cHui3. All rights reserved.</p>
+    </footer>
+  </body>
+  <script src="../js/register.js"></script>
+</html>
