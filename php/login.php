@@ -1,10 +1,10 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-//登录界面
+
 $servername = "localhost:3306";
 $conn = new mysqli($servername, "root", "123456");
 if ($conn->connect_error) {
-die("Conn failed: " . $conn->connect_error);
+    die("Conn failed: " . $conn->connect_error);
 }
 // echo "Conn established";
 $conn->select_db("art");
@@ -52,6 +52,9 @@ if (isset($_POST['username'])&&isset($_POST['password'])){//登录表单已提�
     // 设置参数值
     $username = $_POST['username'];
     $password = $_POST['password'];
+
+    //TODO: salt
+
     // 创建预处理语句
     $stmt = $conn->prepare("SELECT * FROM user WHERE username = ? AND password = ?");
     // 绑定参数

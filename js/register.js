@@ -39,7 +39,8 @@ registrationForm.addEventListener('submit', function(event) {
   }
 
   // if all input fields are valid, redirect to the login page
-  window.location.href = 'login.html';
+  //window.location.href = 'login.html';
+  this.submit();
 });
 
 // function to validate the username
