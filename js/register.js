@@ -13,7 +13,7 @@ username.oninput = function(){
     usernameError.textContent = "请输入用户名";
     usernameError.style.display = 'block';
   } else if(!isValidUsername(usernameField.value)) {
-    usernameError.textContent = "用户名不合法";
+    usernameError.textContent = "用户名不合法,只能包含字母数组下划线";
     usernameError.style.display = 'block';
   } else {
     usernameError.style.display = 'none';
@@ -26,11 +26,19 @@ password.oninput = function(){
   if (passwordField.value.length == 0) {
     passwordError.textContent = "请输入密码";
     passwordError.style.display = 'block';
+  } else if(passwordField.value.length < 8) {
+    passwordError.textContent = "密码至少8位";
+    passwordError.style.display = 'block';
+  } else if(passwordField.value.length > 30) {
+    passwordError.textContent = "密码不应超过30位";
+    passwordError.style.display = 'block';
   } else if(!isValidPassword(passwordField.value)) {
-    passwordError.textContent = "密码不合法";
+    passwordError.textContent = "密码中含有非法字符 * ~ ` # $ % & \\ \' \" ; ? $";
     passwordError.style.display = 'block';
   } else {
     passwordError.style.display = 'none';
+    var level = passwordStrengthLevel(passwordField.value);
+    changeStrengthCSS(level);
   }
   //TODO: 密码强弱提示
 }
@@ -72,7 +80,6 @@ phone.oninput = function(){
   }
 }
 
-
 // 提交时验证：alert
 registrationForm.addEventListener('submit', function(event) {
   // prevent the default form submission behavior
@@ -110,7 +117,7 @@ registrationForm.addEventListener('submit', function(event) {
 // function to validate the username
 function isValidUsername(username) {
   // check if the username contains only letters, numbers, or underscores
-  var regex = /^[a-zA-Z0-9_]+$/;
+  var regex = /^[a-zA-Z0-9_-]+$/;
   return regex.test(username);
 }
 
@@ -125,8 +132,41 @@ function isValidEmail(email) {
 // function to validate the password
 function isValidPassword(password) {
   // check if the password is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number
-  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-  return regex.test(password);
+  //var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  var banned = /^[a-zA-Z0-9_-]+[^*~`#$%&\\'";?$\x22]+$/;
+  return banned.test(password);
+}
+
+function passwordStrengthLevel(password) {
+  var level = 0;
+  if (/[a-z]/.test(password)) level++;
+  if (/[A-Z]/.test(password)) level++;
+  if (/\d/.test(password)) level++;
+  if(/[^0-9a-zA-Z]/.test(password)) level++;
+  return level;
+}
+
+function changeStrengthCSS(level) {
+  var weak = document.getElementById('weak');
+  var medium = document.getElementById('medium');
+  var strong = document.getElementById('strong');
+  switch(level) {
+    case 0:
+      weak.className=medium.className=strong.className="strength";
+      break;
+    case 1:
+      weak.className="weak";
+      medium.className=strong.className="strength";
+      break;
+    case 2:
+      weak.className=medium.className="medium";
+      strong.className="strength";
+      break;
+    case 3:
+    case 4:
+      weak.className=medium.className=strong.className="strong"; 
+      break;
+  }
 }
 
 function isValidPhone(phone) {

@@ -105,10 +105,59 @@ button[type="submit"]:hover {
 .form-control .error {
   color: rgba(255, 0, 0, 0.8);
   font-size: 12px;
+  position: absolute;
 }
 
 .form-control label.must:after {
   content: ' *';
   color: rgba(255, 0, 0, 0.8);
   font-size: 100%;
-  }
+}
+
+span#password-strength {
+  font-size: 12px;
+}
+
+.weak {
+  background: rgba(255, 0, 0, 0.8);
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.medium {
+  background: #FF9900;
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.strong {
+  background: #6de125;
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.strength {
+  display: inline-block;
+  width: 70px;
+  /*
+  height: 30px;
+  line-height: 30px; */
+  background: #ddd;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+
+option:disabled {
+  color: grey;
+}
+
+input[type="date"] {
+  font-family: Arial, sans-serif;
+}
