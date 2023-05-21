@@ -167,3 +167,13 @@ input#birthday {
 input[type="date"] {
   font-family: Arial, sans-serif;
 }
+
+div.line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+input#captcha {
+  width: 70%;
+}
