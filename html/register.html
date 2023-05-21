@@ -10,24 +10,29 @@
       <form action="../php/register.php" method="post">
         <h1>注册</h1>
         <div class="form-control">
-          <label for="username">用户名</label>
+          <label for="username" class="must">用户名</label>
           <input type="text" id="username" name="username" required>
+          <div id="usernameError" class="error"></div>
         </div>
         <div class="form-control">
-          <label for="password">密码</label>
+          <label for="password" class="must">密码</label>
           <input type="password" id="password" name="password" required>
+          <div id="passwordError" class="error"></div>
         </div>
         <div class="form-control">
-          <label for="password">确认密码</label>
+          <label for="password" class="must">确认密码</label>
           <input type="password" id="confirm-password" name="confirm-password" required>
+          <div id="confirm-passwordError" class="error"></div>
         </div>
         <div class="form-control">
           <label for="email">邮箱</label>
           <input type="email" id="email" name="email">
+          <div id="emailError" class="error"></div>
         </div>
         <div class="form-control">
-          <label for="phone">电话</label>
+          <label for="phone">手机号</label>
           <input type="text" id="phone" name="phone">
+          <div id="phoneError" class="error"></div>
         </div>
         <div class="form-control">
           <label for="address">地址</label>
