@@ -56,9 +56,9 @@ if (isset($_POST['username'])&&isset($_POST['password'])){//登录表单已提�
     //TODO: salt
 
     // 创建预处理语句
-    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ? AND password = ?");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
     // 绑定参数
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("s", $username);
     // 执行查询
     $stmt->execute();
     // 处理结果
@@ -67,13 +67,22 @@ if (isset($_POST['username'])&&isset($_POST['password'])){//登录表单已提�
     // echo $username;
     // echo $password;
 
-    if($result->num_rows === 1) {        
-        session_start();
-        $_SESSION['username'] = $_POST['username'];
-        echo "<script>alert('欢迎');location='../html/main.html'</script>";
+    if($result->num_rows === 1) {     
+        //var_dump($result->fetch_assoc());
+        $row = $result->fetch_assoc();
+        $salt = $row['salt'];
+        $password = hash("sha256", $password . $salt);
+        if($password === $row['password']) {
+            session_start();
+            $_SESSION['username'] = $_POST['username'];
+            echo "<script>alert('欢迎');location='../html/main.html'</script>";
+        } else {
+            echo "<script>alert('密码错误')</script>";
+        }
+        
     } else {
         //echo "用户名或者密码错误<br>";
-        echo "<script>alert('用户名或密码错误')</script>";
+        echo "<script>alert('用户名不存在')</script>";
         //echo "<a href='login.html'>返回</a>";
     }
    

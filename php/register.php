@@ -37,6 +37,8 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     // }
     //TODO: 加盐
     $salt = 0;
+    $salt = getRandomString();
+    $password = hash("sha256", $password . $salt);
 
     if($result->num_rows === 1){
         echo "<script>alert('用户名已存在')</script>";
@@ -52,6 +54,18 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         }
     }
 
+}
+
+function getRandomString($length = 20) {
+    if (function_exists('openssl_random_pseudo_bytes')) {
+        $bytes = openssl_random_pseudo_bytes($length * 2);
+        if ($bytes === false) {
+            throw new RuntimeException('Unable to generate a random string');
+        }
+        return substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $length);
+    }
+    $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
 }
 
 require '../html/register.html';

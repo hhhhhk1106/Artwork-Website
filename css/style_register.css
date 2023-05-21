@@ -30,6 +30,7 @@ footer {
   width: 400px;
   margin: 0 auto;
   padding-top: 100px;
+  padding-bottom: 100px;
 }
 
 form {
@@ -145,17 +146,22 @@ span#password-strength {
 .strength {
   display: inline-block;
   width: 70px;
-  /*
-  height: 30px;
-  line-height: 30px; */
   background: #ddd;
   text-align: center;
   margin: 4px 2px;
   font-size: 12px;
 }
 
-option:disabled {
-  color: grey;
+select {
+  color: rgb(158, 158, 158);
+}
+
+option:enabled {
+  color: black;
+}
+
+input#birthday {
+  color: rgb(158, 158, 158);
 }
 
 input[type="date"] {

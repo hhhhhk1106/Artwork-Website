@@ -40,7 +40,7 @@ password.oninput = function(){
     var level = passwordStrengthLevel(passwordField.value);
     changeStrengthCSS(level);
   }
-  //TODO: 密码强弱提示
+  //TOkDO: 密码强弱提示
 }
 
 var password_conf = document.getElementById('confirm-password');
@@ -70,7 +70,7 @@ email.oninput = function(){
 var phone = document.getElementById('phone');
 phone.oninput = function(){
   var phoneError = document.getElementById('phoneError');
-  if (phoneError.value.length == 0) {
+  if (phoneField.value.length == 0) {
     phoneError.style.display = 'none';
   } else if (!isValidPhone(phoneField.value)) {
     phoneError.textContent = "请输入合法的手机号";
@@ -179,6 +179,21 @@ function isValidPhone(phone) {
 function isValidConfirmPassword(password, confirmPassword) {
   // check if the confirm password matches the password
   return password === confirmPassword;
+}
+
+var sex = document.getElementById('sex');
+sex.onchange = function() {
+  sex.style.color = "black";
+}
+
+var birthday = document.getElementById('birthday');
+birthday.onchange = function() {
+  birthday.style.color = "black";
+}
+
+var nationality = document.getElementById('nationality');
+nationality.onchange = function() {
+  nationality.style.color = "black";
 }
 
 // 定义国籍选项的数据
