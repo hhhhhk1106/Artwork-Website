@@ -6,22 +6,19 @@
 </head>
 <body>
 	<header>
-		<!-- <div class="logo">
-			<a href="#">首页</a>
-		</div> -->
-		<!-- <nav id="logged-out">
-			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Login</a></li>
-			</ul>
-		</nav> -->
 		<nav id="logged-in">
 			<ul>
-				<li><a href="main.html">主页</a></li>
-				<li><a href="info.html">个人中心</a></li>
-				<li><a href="shoppingcart.html">购物车</a></li>
-				<li><a href="issue.html">发布</a></li>
-				<li><a href="#">登出</a></li>
+				<li><a href="../html/main.html">主页</a></li>
+				<li><a href="../html/info.html">个人中心</a></li>
+				<li><a href="../html/shoppingcart.html" id="sc">购物车</a></li>
+				<li><a href="../html/issue.html">发布</a></li>
+				<li><button id="logout">登出</button></li>
+			</ul>
+		</nav>
+		<nav id="logged-out">
+			<ul>
+				<li><a href="../html/main.html">主页</a></li>
+				<li><a href="../html/login.html">登录</a></li>
 			</ul>
 		</nav>
 		<form>
@@ -77,4 +74,6 @@
 		<p>&copy; 2023 cHui3. All rights reserved.</p>
 	</footer>
 </body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../js/common.js"></script>
 </html>

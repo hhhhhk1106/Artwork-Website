@@ -16,6 +16,19 @@
   nav ul {
     display: flex;
     list-style: none;
+    align-items: baseline;
+  }
+  
+  nav li button {
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
   }
   
   nav li {

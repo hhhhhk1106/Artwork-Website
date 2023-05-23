@@ -33,7 +33,7 @@ if (isset($_POST['username'])&&isset($_POST['password'])){//登录表单已提�
     $password = $_POST['password'];
 
     // 创建预处理语句
-    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM customerlogon WHERE UserName = ?");
     // 绑定参数
     $stmt->bind_param("s", $username);
     // 执行查询
@@ -47,11 +47,17 @@ if (isset($_POST['username'])&&isset($_POST['password'])){//登录表单已提�
     if($result->num_rows === 1) {     
         //var_dump($result->fetch_assoc());
         $row = $result->fetch_assoc();
-        $salt = $row['salt'];
+        $salt = $row['Salt'];
         $password = hash("sha256", $password . $salt);
-        if($password === $row['password']) {
-            session_start();
+        if($password === $row['Pass']) {
+            //session_start();
             $_SESSION['username'] = $_POST['username'];
+            $userID = $row['CustomerID'];
+            $_SESSION['userID'] = $userID;
+            // 设置js中的session
+            echo "<script>sessionStorage.setItem('username','$username')</script>";
+            echo "<script>sessionStorage.setItem('userID','$userID')</script>";
+            echo "<script>console.log(sessionStorage.getItem('userID'))</script>";
             echo "<script>alert('欢迎');location='../html/main.html'</script>";
         } else {
             echo "<script>alert('密码错误')</script>";

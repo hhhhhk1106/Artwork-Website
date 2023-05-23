@@ -40,7 +40,7 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     //     //判断验证码是否填写正确
     // } else 
 
-    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM customerlogon WHERE UserName = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -59,10 +59,21 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     if($result->num_rows === 1){
         echo "<script>alert('用户名已存在')</script>";
     } else {
-        echo $birthday;
-        $sql= "INSERT INTO user (username, password, salt, email, phone, address, sex, nationality)
-        VALUES ('$username','$password','$salt','$email','$phone','$address','$sex','$nationality')";
+        //echo $birthday;   //TODO: date-joined
+        $sql= "INSERT INTO customerlogon (UserName, Pass, Salt, State)
+        VALUES ('$username','$password','$salt', 1)";
         //插入数据库
+        $result = $conn->query($sql);
+        if($result === false){
+            echo "<script>alert('数据插入失败，请稍后再试')</script>";
+        }
+        $sql_id = "SELECT max(CustomerID) FROM customerlogon";
+        $row = $conn->query($sql_id)->fetch_assoc();
+        $id = $row["max(CustomerID)"];
+        //echo $id;
+        var_dump($id);
+        $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex)
+        VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
         if($conn->query($sql) === false){
             echo "<script>alert('数据插入失败，请稍后再试')</script>";
         }else{
