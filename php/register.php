@@ -51,7 +51,7 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     // } else {
     //     echo "Error: " . $sql . "<br>" . $conn->error;
     // }
-    //TODO: 加盐
+
     $salt = 0;
     $salt = getRandomString();
     $password = hash("sha256", $password . $salt);
@@ -71,7 +71,7 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         $row = $conn->query($sql_id)->fetch_assoc();
         $id = $row["max(CustomerID)"];
         //echo $id;
-        var_dump($id);
+        //var_dump($id);
         $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex)
         VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
         if($conn->query($sql) === false){

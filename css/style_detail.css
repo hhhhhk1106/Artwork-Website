@@ -111,15 +111,15 @@ h1 {
 }
 
 .product-image {
-	flex-basis: 40%;
+	flex-basis: 35%;
 }
 
 .product-image img {
-	height: 500px;
+	width: 450px;
 }
 
 .product-details {
-	flex-basis: 35%;
+	flex-basis: 40%;
 	margin-top: 20px;
 }
 
@@ -128,10 +128,17 @@ h2 {
 }
 
 h3 {
-	margin: 20px;
-	margin-left: 0;
+	width: 40%;
 }
 
+.product-details p {
+	margin-bottom: 20px;
+}
+
+.product-details .line {
+	display: flex;
+	align-items: baseline;
+}
 
 input[type="number"] {
 	width: 60px;
@@ -153,23 +160,23 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    }
+}
     
-    footer p {
-    margin: 0;
-    }
+footer p {
+margin: 0;
+}
 
 html {
     height: 100%;
-  }
-  
-  body {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  main {
-    flex: 1;
-  }
-  
+}
+
+body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	flex: 1;
+}
+

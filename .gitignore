@@ -4,6 +4,9 @@
 # Copied file
 * copy.*
 
+# x
+*_x.*
+
 # Log file
 *.log
 

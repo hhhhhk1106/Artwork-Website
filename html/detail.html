@@ -29,12 +29,39 @@
 	<main>
 		<div class="content">
 		<section class="product-image">
-			<img src="image/1.jpg" alt="商品图片">
+			<img alt="艺术品图片" id="product-image">
 		</section>
 		<section class="product-details">
-			<h2>商品详情</h2>
-			<p>商品简介</p>
-			<h3>价格：$100.00</h3>
+			<div class="line">
+				<h3>名称：</h3>
+				<p alt="艺术品名称" id="title"></p>
+			</div>
+			<div class="line">
+				<h3>作者：</h3>
+				<p alt="艺术品作者" id="artist"></p>
+			</div>
+			<div class="line">
+				<h3>价格：</h3>
+				<p alt="艺术品价格" id="price"></p>
+			</div>
+			<div class="line">
+				<h3>是否售出：</h3>
+				<p alt="艺术品售出状态" id="saled"></p>
+			</div>
+			<div class="line">
+				<h3>年份：</h3>
+				<p alt="艺术品年份" id="year"></p>
+			</div>
+
+			<!-- <h2>时代：</h2>
+			<p alt="艺术品时代" id="title"></p>
+			<h2>风格：</h2>
+			<p alt="艺术品风格" id="title"></p>
+			<h2>主题：</h2>
+			<p alt="艺术品主题" id="title"></p>
+			<h2>体裁：</h2>
+			<p alt="艺术品体裁" id="title"></p> -->
+			
 			<form action="#">
 				<!-- <label for="quantity">数量：</label>
 				<input type="number" name="quantity" id="quantity" min="1" max="10" value="1"> -->
@@ -49,4 +76,5 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../js/common.js"></script>
+<script src="../js/detail.js"></script>
 </html>
