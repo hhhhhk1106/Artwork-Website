@@ -4,6 +4,7 @@ console.log(id);
 if(id === null) {
     //TODO: 跳转到默认页？显示空detail页？
     //console.log("nope");
+    window.location.href = "../html/error.html";
 } else {
     $.ajax({
         method : 'get',
@@ -17,6 +18,7 @@ if(id === null) {
             //未查询到该painting(id非数字或无对应数据)
             if(ret == "no") {
                 //TODO:跳转
+                window.location.href = "../html/error.html";
             } else {
                 //显示
                 var obj = JSON.parse(ret);
@@ -38,24 +40,17 @@ function getUrlParam(name) {
 }
 
 function showInfo(obj) {
-    // get info
-    //var title = obj.Title;  //名称
-    //var artist = obj.ArtistName;    //TOkDO:
-    //var link = obj.ImageLink;  //图片
-    var year = obj.YearOfWork;
-    var price = obj.MSRP;
-    var saled = obj.Saled;
-
     // 可能为null的信息
-    var description = obj.Description;
-    var excerpt = obj.Excerpt;
-    var google = obj.GoogleLink;
-    var issuedate = obj.IssueDate;
-    var issueuser = obj.UserName; 
-    var genre = obj.GenreName;
-    var era = obj.EraName;
-    var subject = obj.SubjectName;
-    var shape = obj.ShapeName;
+    var list = [];
+    list["description"] = obj.Description;
+    list["excerpt"] = obj.Excerpt;
+    list["wiki"] = obj.WikiLink;
+    list["issuedate"] = obj.IssueDate;
+    list["issueuser"] = obj.UserName;
+    list["genre"] = obj.GenreName;
+    list["era"] = obj.EraName;
+    list["subject"] = obj.SubjectName;
+    list["shape"] = obj.ShapeName;
 
     // set CSS
     var productImage = document.getElementById('product-image');
@@ -66,6 +61,23 @@ function showInfo(obj) {
     document.getElementById('price').innerHTML = obj.MSRP;
     document.getElementById('saled').innerHTML = (obj.Saled===0?"未售出":"已售出");
     document.getElementById('year').innerHTML = obj.YearOfWork;
+
+    // 可能为null的信息
+    var optional = document.getElementsByName('optional');
+    console.log("here");
+    console.log(optional.length);
+    optional.forEach((element)=>{
+        console.log(element.lastElementChild.id);
+        var item = element.lastElementChild.id;
+        if(list[item] != null) {
+            document.getElementById(item).innerHTML = list[item];
+            element.style.display = 'flex';
+        }
+    })
+    if(list['wiki'] != null) {
+        document.getElementById('wiki').href = list['wiki'];
+    }
+    //optional[0].style.display = 'block';
 }
 
 function crossOrigin(url) {

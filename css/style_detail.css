@@ -106,8 +106,8 @@ h1 {
 	padding: 40px;
     padding: 20px;
     max-width: 1000px;
-    margin: 0 auto;
-	margin-top: 20px;
+    margin: 20px auto;
+	/* margin-top: 20px; */
 }
 
 .product-image {
@@ -116,10 +116,11 @@ h1 {
 
 .product-image img {
 	width: 450px;
+	margin-bottom: 30px;
 }
 
 .product-details {
-	flex-basis: 40%;
+	flex-basis: 50%;
 	margin-top: 20px;
 }
 
@@ -127,17 +128,30 @@ h2 {
 	margin-top: 0;
 }
 
-h3 {
-	width: 40%;
+.line h3 {
+	width: 35%;
 }
 
-.product-details p {
+.line p {
+	width: 70%;
+}
+
+.line a {
+	width: 70%;
+	font-size: 14px;
+}
+
+.product-details p,.product-details a {
 	margin-bottom: 20px;
 }
 
 .product-details .line {
 	display: flex;
 	align-items: baseline;
+}
+
+.product-details .line[name="optional"] {
+	display: none;
 }
 
 input[type="number"] {
