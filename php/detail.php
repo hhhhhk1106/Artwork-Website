@@ -7,6 +7,30 @@ if ($conn->connect_error) {
 }
 $conn->select_db("art");
 
+$id = $_GET['id'];
+// echo $id;
+
+$stmt = $conn->prepare("SELECT * FROM paintings WHERE PaintingID = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    // TOkDO: id获取name等
+    $row["ArtistName"] = getArtist($row["ArtistID"],$conn);
+    $row["UserName"] = getIssueUser($row["IssueUserID"],$conn);
+    $ge = getGenreNEra($id,$conn);
+    $row["GenreName"] = $ge["GenreName"];
+    $row["EraName"] = $ge["EraName"];
+    $row["ShapeName"] = getShape($row["ShapeID"],$conn);
+    $row["SubjectName"] = getSubject($id,$conn);
+
+    echo json_encode($row);
+} else {
+    echo "no";
+}
+
 function getArtist($id,$conn) {
     if($id === null) return;
     $sql = "SELECT FirstName,LastName FROM artists WHERE ArtistID = $id";
@@ -76,28 +100,4 @@ function getSubject($id,$conn) {
         return $row["SubjectName"];;
     }
     return null;
-}
-
-$id = $_GET['id'];
-// echo $id;
-
-$stmt = $conn->prepare("SELECT * FROM paintings WHERE PaintingID = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-    // TODO: id获取name等
-    $row["ArtistName"] = getArtist($row["ArtistID"],$conn);
-    $row["UserName"] = getIssueUser($row["IssueUserID"],$conn);
-    $ge = getGenreNEra($id,$conn);
-    $row["GenreName"] = $ge["GenreName"];
-    $row["EraName"] = $ge["EraName"];
-    $row["ShapeName"] = getShape($row["ShapeID"],$conn);
-    $row["SubjectName"] = getSubject($id,$conn);
-
-    echo json_encode($row);
-} else {
-    echo "no";
 }

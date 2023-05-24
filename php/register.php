@@ -74,9 +74,11 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         //var_dump($id);
         $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex)
         VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
-        if($conn->query($sql) === false){
+        $sql2= "INSERT INTO account (UserID) VALUES ('$id')";
+        if($conn->query($sql) === false || $conn->query($sql2) === false){
             echo "<script>alert('数据插入失败，请稍后再试')</script>";
         }else{
+            
             echo "<script>alert('注册成功！');location='../html/login.html'</script>";
         }
     }

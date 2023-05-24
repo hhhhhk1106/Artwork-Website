@@ -1,0 +1,1 @@
+// var registrationForm = document.querySelector('form');

@@ -2,7 +2,7 @@ var id = getUrlParam('id');
 console.log(id);
 
 if(id === null) {
-    //TODO: 跳转到默认页？显示空detail页？
+    //TOkDO: 跳转到默认页？显示空detail页？
     //console.log("nope");
     window.location.href = "../html/error.html";
 } else {
@@ -14,10 +14,10 @@ if(id === null) {
             id : id
         },
         success : function(ret) {
-            console.log(ret);
+            // console.log(ret);
             //未查询到该painting(id非数字或无对应数据)
             if(ret == "no") {
-                //TODO:跳转
+                //TOkDO:跳转
                 window.location.href = "../html/error.html";
             } else {
                 //显示
@@ -28,6 +28,46 @@ if(id === null) {
         },
     })
 }
+
+var addShoppingCart = document.querySelectorAll('form')[1];
+console.log(addShoppingCart);
+addShoppingCart.addEventListener('submit', function(event) {
+    // prevent the default form submission behavior
+    event.preventDefault();
+
+    // 判断session
+    var userID = sessionStorage.getItem("userID");
+    if(userID === null) {
+        alert("用户未登录！");
+        return;
+    }
+
+    // post
+    $.ajax({
+        method : 'post',
+        url : "../php/shoppingcart.php",
+        dataType : "text",
+        data : {
+            UserID : userID,
+            PaintingID : id,
+        },
+        success : function(ret) {
+            // console.log(ret);
+            //未查询到该painting(id非数字或无对应数据)
+            if(ret == "success") {
+                // console.log("yeah");
+                alert("添加成功");
+                //window.location.href = "../html/error.html";
+            } else if(ret == "already") {
+                alert("购物车中已有该艺术品");
+            } else {
+                //显示
+                var obj = JSON.parse(ret);
+                console.log(obj);
+            }
+        },
+    })
+});
 
 //获取url中的参数
 function getUrlParam(name) {
@@ -64,10 +104,10 @@ function showInfo(obj) {
 
     // 可能为null的信息
     var optional = document.getElementsByName('optional');
-    console.log("here");
-    console.log(optional.length);
+    // console.log("here");
+    // console.log(optional.length);
     optional.forEach((element)=>{
-        console.log(element.lastElementChild.id);
+        // console.log(element.lastElementChild.id);
         var item = element.lastElementChild.id;
         if(list[item] != null) {
             document.getElementById(item).innerHTML = list[item];
