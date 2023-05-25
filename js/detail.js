@@ -50,6 +50,7 @@ addShoppingCart.addEventListener('submit', function(event) {
         data : {
             UserID : userID,
             PaintingID : id,
+            myAPI : "add",
         },
         success : function(ret) {
             // console.log(ret);
@@ -62,8 +63,8 @@ addShoppingCart.addEventListener('submit', function(event) {
                 alert("购物车中已有该艺术品");
             } else {
                 //显示
-                var obj = JSON.parse(ret);
-                console.log(obj);
+                // var obj = JSON.parse(ret);
+                // console.log(obj);
             }
         },
     })
@@ -94,7 +95,8 @@ function showInfo(obj) {
 
     // set CSS
     var productImage = document.getElementById('product-image');
-    productImage.src = obj.ImageLink;;
+    productImage.src = obj.ImageLink;
+    productImage.src = "../image/large/"+obj.ImageFileName+".jpg";
     //var artist = document.getElementById('artist').innerHTML;
     document.getElementById('title').innerHTML = obj.Title;
     document.getElementById('artist').innerHTML = obj.ArtistName;

@@ -21,6 +21,7 @@ logout.onclick = function() {
 		success : function(ret) {
 			if(ret=="success"){
 				console.log("success");
+        window.location.reload();
 			}else{
 			}
 		},
