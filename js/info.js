@@ -22,17 +22,44 @@ if(userID === null) {
                 //显示
                 var obj = JSON.parse(ret);
                 showUserInfo(obj);
-
                 //console.log(title);
             }
         },
     })
     
-    // 商品相关信息
+    
+    var money = document.getElementById('money');
+    console.log(money);
+    var rechargeField = document.querySelector('#money');
+    money.oninput = function(){
+        // console.log("rechargeOK");
+        var rechargeError = document.getElementById('rechargeError');
+        if(rechargeField.value.length!=0&&!isValidRecharge(rechargeField.value)) {
+            rechargeError.textContent = "金额应为正整数";
+            rechargeError.style.display = 'block';
+        } else {
+            rechargeError.style.display = 'none';
+        }
+    }
+    
+    var recharge = document.getElementById('recharge');
+    recharge.onclick = function() {
+        if(rechargeField.value.length!=0&&!isValidRecharge(rechargeField.value)) {
+            myAlert('','金额应为正整数',function(){});
+            return;
+        } else if(rechargeField.value.length!=0) {
+            myConfirm('','确认充值：'+rechargeField.value,function(ret){
+                console.log(ret);
+                if(ret) {
+                    rechargeMoney(rechargeField.value);
+                }
+            });
+        }
+    }
 }
 
 function showUserInfo(obj) {
-    console.log("infoOK")
+    // console.log("infoOK")
     // 可能为null的信息
     var list = [];
     list["username"] = sessionStorage.getItem("username");
@@ -46,15 +73,6 @@ function showUserInfo(obj) {
     list["Balance"] = obj.Balance;
 
     var name = [];
-    // name["username"] = "用户名";
-    // name["Name"] = "真实姓名";
-    // name["Address"] = "地址";
-    // name["Country"] = "国籍";
-    // name["Phone"] = "手机号";
-    // name["Email"] = "邮箱";
-    // name["Sex"] = "性别";
-    // name["Birthday"] = "生日";
-    // name["Balance"] = "账户余额";
 
     name["用户名"] = "username";
     name["真实姓名"] = "Name";
@@ -70,20 +88,52 @@ function showUserInfo(obj) {
     console.log(userinfo);
     // console.log(optional.length);
     userinfo.forEach((element)=>{
-        console.log(element);
-        console.log(element.firstChild.innerHTML);
+        // console.log(element);
+        // console.log(element.firstChild.innerHTML);
         var key = name[element.firstChild.innerHTML];
         if(list[key]) {
             element.innerHTML += list[key];
             element.style.display = 'block';
         }
-
-        // console.log(element.lastElementChild.id);
-        // if(element != null) {
-        //     // document.getElementById(item).innerHTML = list[item];
-        //     // element.style.display = 'flex';
-        //     console.log(element.name);
-        // }
     })
     //optional[0].style.display = 'block';
+}
+
+function isValidRecharge(recharge) {
+    // 中国运营商
+    var regex = /^[1-9][0-9]*$/;
+    return regex.test(recharge);
+}
+
+function rechargeMoney(money) {
+    $.ajax({
+        method : 'post',
+        url : "../php/info.php",
+        dataType : "text",
+        data : {
+            UserID : userID,
+            Money : money,
+            myAPI : "recharge",
+        },
+        success : function(ret) {
+            console.log(ret);
+            // var line = document.getElementsByName(paintingID);
+            // line[0].style.display = 'none';
+            if(ret == "no") {
+                // 没有该用户账户
+                myAlert('','用户账户出现错误',function(){});
+            } else if(ret == "success") {
+                //window.location.reload();
+                var balance = document.getElementById('balance');
+                //var node = document.createTextNode(1);
+                //balance.replaceChild(node,balance.lastChild);
+                var old = balance.lastChild;
+                var temp = document.createElement("div");
+                temp.appendChild(old);
+                var newMoney = parseFloat(temp.innerHTML) + parseFloat(money);
+                var node = document.createTextNode(newMoney);
+                balance.appendChild(node);
+            }
+        }
+    });
 }

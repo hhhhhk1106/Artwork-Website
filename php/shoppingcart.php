@@ -59,7 +59,8 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
     $myAPI = $_GET["myAPI"];
     if($myAPI == "show") {
         // echo "SHOW";
-        $stmt = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ?");
+        // 展示未购买商品
+        $stmt = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ? AND `State` = 0");
         $stmt->bind_param("i", $UserID);
         $stmt->execute();
         $result = $stmt->get_result();

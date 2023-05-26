@@ -45,10 +45,33 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
             echo "no";
         }          
     }
-  
 }
 
+if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
+    $userID = $_POST['UserID'];
+    $myAPI = $_POST["myAPI"];
 
+    if($myAPI == "recharge") {
+        $money = $_POST["Money"];
+
+        $stmt = $conn->prepare("SELECT * FROM account WHERE UserID = ?");
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $balance = $row["Balance"] + $money;
+            $stmt = $conn->prepare("UPDATE account SET `Balance` = ? WHERE `id` = ?");
+            $stmt->bind_param("ii", $balance, $row["id"]);
+            $stmt->execute();
+            echo "success";
+        } else {
+            echo "no";
+        }  
+    }
+
+}
 
 function getBalance($id,$conn) {
     // id为userID

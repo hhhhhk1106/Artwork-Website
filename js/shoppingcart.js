@@ -61,7 +61,7 @@ if(userID === null) {
     
 }
 
-function loadItem(element,total) {
+function loadItem(element) {
     var cart = document.getElementById('cartitems');
     var imagesrc = "../image/square-medium/"+element.ImageFileName+".jpg";
     var title = element.Title;
