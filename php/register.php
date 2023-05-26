@@ -78,8 +78,8 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         $id = $row["max(CustomerID)"];
         //echo $id;
         //var_dump($id);
-        $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex)
-        VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
+        $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex, Birthday)
+        VALUES ('$id','$address','$nationality','$phone','$email','$sex','$birthday')";
         $sql2= "INSERT INTO account (UserID) VALUES ('$id')";
         if($conn->query($sql) === false || $conn->query($sql2) === false){
             // echo "<script>alert('数据插入失败，请稍后再试')</script>";

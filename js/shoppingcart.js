@@ -20,17 +20,23 @@ if(userID === null) {
             } else {
                 //显示
                 var obj = JSON.parse(ret);
-                console.log(obj);
-                console.log(obj.length);
+                // console.log(obj);
+                // console.log(obj.length);
                 // TOkDO: 展示
+                var total = 0.0;
                 obj.forEach(element => {
                     loadItem(element);
+                    total = 0.00 + parseFloat(element.MSRP) + total;
+                    console.log(total);
                 });
                 var del = document.getElementsByClassName('remove-btn');
-                console.log(del.length);
-                console.log(del);
-                
-                console.log(del[0].attributes.getNamedItem('painting').value);//paintingID
+                // console.log(del.length);
+                // console.log(del);
+                console.log("total");
+                console.log(total);
+                var Total = document.getElementById('total');
+                Total.innerText = total;
+                // console.log(del[0].attributes.getNamedItem('painting').value);//paintingID
 
                 var arr = Array.from(del);
                 console.log(arr);
@@ -52,13 +58,10 @@ if(userID === null) {
             }
         },
     });
-    // var del = document.getElementsByClassName('remove-btn');
-    // console.log(del.length);
-    // console.log(del);
     
 }
 
-function loadItem(element) {
+function loadItem(element,total) {
     var cart = document.getElementById('cartitems');
     var imagesrc = "../image/square-medium/"+element.ImageFileName+".jpg";
     var title = element.Title;
@@ -93,3 +96,8 @@ function deleteCart(element,userID) {
         }
     });
 }
+
+// function calculateTotal() {
+//     var total = 0;
+
+// }

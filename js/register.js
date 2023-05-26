@@ -252,14 +252,19 @@ var nationalities = [
     // TODO: 添加更多国籍...//有问题，会重复添加
 ];
 var language = "zh-CN"; // 设置语言，可以根据需要修改
+var flag = true;
 // 将下拉框添加到页面的某个元素中
 var select_nationality = document.getElementById("nationality");
 select_nationality.onfocus = function(){
-  for(var x=0;x<nationalities.length;x++){
-    var opt=document.createElement("option");
-    opt.innerHTML=nationalities[x];
-    // console.log(nationalities[x]);
-    select_nationality.appendChild(opt);
+  if(flag) {
+    for(var x=0;x<nationalities.length;x++){
+      var opt=document.createElement("option");
+      opt.innerHTML=nationalities[x];
+      // console.log(nationalities[x]);
+      select_nationality.appendChild(opt);
+    }
+    flag = false;
   }
+  return;
 }
 

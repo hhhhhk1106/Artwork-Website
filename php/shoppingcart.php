@@ -67,7 +67,7 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
         if($result->num_rows > 0) {
             while ($row = $result->fetch_array()) {
                 // 添加缩略图 名称 价格
-                $info = getPaintingInfo($row["PaintingID"],$conn);
+                $info = getUnsaledPaintingInfo($row["PaintingID"],$conn);
                 if($info) {
                     //$row["ImageLink"] = $info["ImageLink"];
                     $row["ImageFileName"] = $info["ImageFileName"];
@@ -86,10 +86,24 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
 
 // TODO: 删除购物车
 
-
-function getPaintingInfo($id,$conn) {
+function getSaledPaintingInfo($id,$conn) {
     if($id === null) return;
-    $stmt = $conn->prepare("SELECT ImageFileName,Title,ROUND(MSRP,2) as MSRP FROM paintings WHERE PaintingID = ?");
+    $stmt = $conn->prepare("SELECT ImageFileName,Title,ROUND(MSRP,2) as MSRP FROM paintings WHERE PaintingID = ? AND Saled = 1");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        return $row;
+    } else {
+        return;
+    }
+}
+
+function getUnsaledPaintingInfo($id,$conn) {
+    if($id === null) return;
+    $stmt = $conn->prepare("SELECT ImageFileName,Title,ROUND(MSRP,2) as MSRP FROM paintings WHERE PaintingID = ? AND Saled = 0");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
