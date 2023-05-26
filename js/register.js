@@ -5,6 +5,11 @@ var emailField = document.querySelector('#email');
 var passwordField = document.querySelector('#password');
 var confirmPasswordField = document.querySelector('#confirm-password');
 var phoneField = document.querySelector('#phone');
+var captchaField = document.querySelector('#captcha');
+var addressField = document.querySelector('#address');
+var birthdayField = document.querySelector('#birthday');
+var nationalityField = document.querySelector('#nationality');
+var sexField = document.querySelector('#sex');
 
 var username = document.getElementById('username');
 username.oninput = function(){
@@ -80,6 +85,9 @@ phone.oninput = function(){
   }
 }
 
+// displayAlert('success','注册成功！',1500);
+// myAlert('','请输入合法的用户名！',null);
+// myConfirm('','请输入合法的用户名！',null);
 // 提交时验证：alert
 registrationForm.addEventListener('submit', function(event) {
   // prevent the default form submission behavior
@@ -87,31 +95,69 @@ registrationForm.addEventListener('submit', function(event) {
 
   // validate the input fields
   if (!isValidUsername(usernameField.value)) {
-    alert('请输入合法的用户名！');
+    //alert('请输入合法的用户名！');
+    myAlert('','请输入合法的用户名！',function(){
+      // console.log("??");
+    });
     return;
   }
-  if (!isValidPassword(passwordField.value)) {
-    alert('请输入合法的密码！');
+  if (!isValidPassword(passwordField.value) || passwordField.value.length<8 || passwordField.value.length>30) {
+    //alert('请输入合法的密码！');
+    myAlert('','请输入合法的密码！',function(){});
     return;
   }
   if (!isValidConfirmPassword(passwordField.value, confirmPasswordField.value)) {
-    alert('两次输入的密码不匹配！');
+    //alert('两次输入的密码不匹配！');
+    myAlert('','两次输入的密码不匹配！',function(){});
     return;
   }
   // console.log(emailField.value);
   if (emailField.value!="" && !isValidEmail(emailField.value)) {
-    alert('请输入合法的邮箱！');
+    //alert('请输入合法的邮箱！');
+    myAlert('','请输入合法的邮箱！',function(){});
     return;
   }
 
   if (phoneField.value!="" && !isValidPhone(phoneField.value)) {
-    alert('请输入合法的手机号！');
+    //alert('请输入合法的手机号！');
+    myAlert('','请输入合法的手机号！',function(){});
     return;
   }
 
-  // if all input fields are valid, redirect to the login page
-  //window.location.href = 'login.html';
-  this.submit();
+  $.ajax({
+    method : 'post',
+    url : "../php/register.php",
+    dataType : "text",
+    data : {
+      username : usernameField.value,
+      password : passwordField.value,
+      captcha : captchaField.value,
+      email : emailField.value,
+      phone : phoneField.value,
+      address : addressField.value,
+      birthday : birthdayField.value,
+      sex : sexField.value,
+      nationality : nationalityField.value,
+    },
+    success : function(ret) {
+      console.log(ret);
+      if(ret == "already") {
+        myAlert('','用户名已存在',function(){});
+      } else if(ret == "captchaExpired") {
+				myAlert('','验证码已经过期，<br>请刷新页面重试。',function(){});
+			} else if(ret == "captchaWrong") {
+				myAlert('','您输入的验证码不正确！<br>请刷新页面重试。',function(){});
+      } else if(ret == "success") {
+        displayAlert('success','注册成功！',1500);
+        // displayAlert('success','2秒后跳转',1500);  // css被挡住了
+        setTimeout(function(){window.location.href='../html/login.html';},1500);
+      } else {
+        myAlert('','注册失败，请稍后再试',function(){});
+      }
+      // var line = document.getElementsByName(paintingID);
+      // line[0].style.display = 'none';
+    }
+  })
 });
 
 // function to validate the username

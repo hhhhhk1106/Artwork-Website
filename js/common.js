@@ -2,6 +2,7 @@
 // var a =location.search.substr(1);
 // var arr = a.split('=');
 // div.innerHTML = '欢迎您'+arr[1];
+document.write('<script src="../js/box.js"></script>');
 
 var username = sessionStorage.getItem("username");
 var userID = sessionStorage.getItem("userID");

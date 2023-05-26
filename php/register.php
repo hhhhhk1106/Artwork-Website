@@ -14,14 +14,18 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     //获取Session中的验证码
     session_start();
     if(empty($_SESSION['captcha'])){  //如果Session中不存在验证码，则退出
-        exit('验证码已经过期，请返回并刷新页面重试。');
+        echo 'captchaExpired';
+        return;
+        // exit('验证码已经过期，请返回并刷新页面重试。');
     }
     //获取验证码并清除Session中的验证码
     $true_captcha = $_SESSION['captcha'];
     unset($_SESSION['captcha']); //限制验证码只能验证一次，防止重复利用
     //忽略字符串的大小写，进行比较
     if(strtolower($captcha) !== strtolower($true_captcha)){
-        exit('您输入的验证码不正确！请返回并刷新页面重试。');
+        echo 'captchaWrong';
+        return;
+        // exit('您输入的验证码不正确！请返回并刷新页面重试。');
     }
     //验证码验证通过，继续判断用户名和密码
 
@@ -57,7 +61,8 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     $password = hash("sha256", $password . $salt);
 
     if($result->num_rows === 1){
-        echo "<script>alert('用户名已存在')</script>";
+        // echo "<script>myAlert('','用户名已存在',function(){})</script>";
+        echo "already";
     } else {
         //echo $birthday;   //TODO: date-joined
         $sql= "INSERT INTO customerlogon (UserName, Pass, Salt, State)
@@ -65,7 +70,8 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         //插入数据库
         $result = $conn->query($sql);
         if($result === false){
-            echo "<script>alert('数据插入失败，请稍后再试')</script>";
+            // echo "<script>alert('数据插入失败，请稍后再试')</script>";
+            echo "fail";
         }
         $sql_id = "SELECT max(CustomerID) FROM customerlogon";
         $row = $conn->query($sql_id)->fetch_assoc();
@@ -76,10 +82,11 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
         $sql2= "INSERT INTO account (UserID) VALUES ('$id')";
         if($conn->query($sql) === false || $conn->query($sql2) === false){
-            echo "<script>alert('数据插入失败，请稍后再试')</script>";
+            // echo "<script>alert('数据插入失败，请稍后再试')</script>";
+            echo "fail";
         }else{
-            
-            echo "<script>alert('注册成功！');location='../html/login.html'</script>";
+            // echo "<script>alert('注册成功！');location='../html/login.html'</script>";
+            echo "success";
         }
     }
 
@@ -97,4 +104,4 @@ function getRandomString($length = 20) {
     return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
 }
 
-require '../html/register.html';
+// require '../html/register.html';
