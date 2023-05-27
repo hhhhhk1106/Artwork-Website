@@ -65,7 +65,7 @@ if(userID === null) {
         myConfirm('','确认购买所有艺术品？',function(ret){
             console.log(ret);
             if(ret) {
-                //payAll-TODO: 1.1
+                //payAll-TkDO: 1.1
                 var Total = document.getElementById('total');
                 var total = Total.innerText;
                 // console.log(total);
@@ -116,7 +116,7 @@ function deleteCart(element,userID) {
 }
 
 function payAll(total) {
-    //确认余额TODO: 1.0
+    //确认余额TOkDO: 1.0
     // 查询余额，和总价比较，不足则alert；足够则扣款
     // 购物车表查询userid所有state为0，在painting表设置为售出、购物车表更新state为1
     // 之后发布写完：查询到的painting有发布者，则增加对方账户余额

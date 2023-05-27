@@ -100,7 +100,6 @@ function showUserInfo(obj) {
 }
 
 function isValidRecharge(recharge) {
-    // 中国运营商
     var regex = /^[1-9][0-9]*$/;
     return regex.test(recharge);
 }

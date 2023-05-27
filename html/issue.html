@@ -28,47 +28,52 @@
       </form>
     </header>
     <main>
-      <form id="product-form" enctype="multipart/form-data">
+      <form id="product-form">
         <div class="form-group">
-          <label for="name">艺术品名称：</label>
-          <input type="text" id="name" name="name" required />
+          <label for="title">艺术品名称：</label>
+          <input type="text" id="title" name="title" required />
         </div>
         <div class="form-group">
-          <label for="author">作者姓名：</label>
-          <input type="text" id="author" name="author" required />
+          <label for="artist">作者姓名：</label>
+          <input type="text" id="artist" name="artist" required />
         </div>
         <div class="form-group">
-          <label for="era">年份：</label>
-          <input type="text" id="era" name="era" required />
+          <label for="year">年份：</label>
+          <input type="text" id="year" name="year" required />
+          <div id="yearError" class="error"></div>
         </div>
         <div class="form-group">
           <label for="genre">流派：</label>
-          <input type="text" id="genre" name="genre" required />
+          <select type="text" id="genre" name="genre" required>
+            <option disabled selected></option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="size">尺寸：</label>
-          <input type="text" id="size" name="size" required />
+          <label for="width">尺寸-宽度(cm)：</label>
+          <input type="number" min="1" step="1" id="width" name="width" required />
         </div>
         <div class="form-group">
-          <label for="price">价格：</label>
-          <input type="number" id="price" name="price" required />
+          <label for="height">尺寸-高度(cm)：</label>
+          <input type="number" min="1" step="1" id="height" name="height" required />
+        </div>
+        <div class="form-group">
+          <label for="price">价格(元)：</label>
+          <input type="number" min="0.01" step="0.01" id="price" name="price" required />
         </div>
         <div class="form-group">
           <label for="description">简介：</label>
           <textarea id="description" name="description" required></textarea>
         </div>
         <div class="form-group">
-          <label for="image">上传图片：</label>
+          <label for="image">上传图片：(小于4M)</label>
           <input type="file" id="image" name="image" accept="image/*" required />
         </div>
-        <div class="form-group">
-          <button type="submit">确认发布</button>
-        </div>
+        <button type="submit" id="subbut">确认发布</button>
       </form>
-      <div class="preview">
+      <div class="preview" id="box">
         <h2>预览</h2>
         <div class="image-preview">
-            <img src="image/5.jpg" id="image_preview" alt="Default Image">
+            <img id="image_preview" alt="Default Image">
         </div>
         <div class="preview-details"></div>
       </div>
@@ -80,4 +85,5 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/issue_preview.js"></script>
+  <script src="../js/issue.js"></script>
 </html>

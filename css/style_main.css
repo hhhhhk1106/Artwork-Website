@@ -136,17 +136,17 @@ margin: 0;
 
 /* Media query for responsive design */
 @media (max-width: 768px) {
-header {
+/* header {
 flex-direction: column;
 text-align: center;
-}
-nav {
+} */
+/* nav {
     margin-top: 10px;
-}
+} */
 
-form {
+/* form {
     margin-top: 10px;
-}
+} */
 
 .content {
     padding: 10px;
