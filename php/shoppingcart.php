@@ -53,6 +53,64 @@ if(isset($_POST["UserID"])&&isset($_POST["PaintingID"])&&isset($_POST["myAPI"]))
     }
 }
 
+if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
+    $UserID = $_POST["UserID"];
+    $myAPI = $_POST["myAPI"];
+
+    // 支付
+    if($myAPI == "pay") {
+        // TODO: 之后发布写完：查询到的painting有发布者，则增加对方账户余额
+        $total = $_POST["Total"];
+        // 查询余额
+        $sql = "SELECT * FROM account WHERE UserID = $UserID";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if($total > $row["Balance"]) {
+                // 余额不足
+                echo "notEnough";
+            } else {
+                // 扣款、设置购物车state和艺术品saled
+                $balance = $row["Balance"] - $total;
+                $stmt = $conn->prepare("UPDATE account SET `Balance` = ? WHERE `id` = ?");
+                $stmt->bind_param("ii", $balance, $row["id"]);
+                $stmt->execute();
+
+                $stmt1 = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ? AND `State` = 0");
+                $stmt1->bind_param("i", $UserID);
+                $stmt1->execute();
+                $result1 = $stmt1->get_result();
+                // echo json_encode($result1);
+                $list = array();
+                if($result1->num_rows > 0) {
+                    // 设置购物车
+                    while ($row1 = $result1->fetch_array()) {
+                        //$list[] = $row["PaintingID"];
+                        // echo $row1["PaintingID"];
+                        $stmt2 = $conn->prepare("UPDATE shoppingcart SET `State` = 1 WHERE `id` = ?");
+                        $stmt2->bind_param("i", $row1["id"]);
+                        $stmt2->execute();
+
+                        $stmt3 = $conn->prepare("UPDATE paintings SET Saled = 1 WHERE PaintingID = ?");
+                        $stmt3->bind_param("i", $row1["PaintingID"]);
+                        $stmt3->execute();
+                    }
+                    // foreach($list as $key => $value) {
+                    //     $stmt3 = $conn->prepare("UPDATE paintings SET Saled = 1 WHERE PaintingID = ?");
+                    //     $stmt3->bind_param("i", $value);
+                    //     $stmt3->execute();
+                    // }
+                }
+
+                echo "success";
+            }
+        } else {
+            echo "no";
+        }
+
+    }
+}
+
 // TOkDO: 展示购物车
 if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
     $UserID = $_GET["UserID"];
@@ -76,6 +134,14 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
                     $row["MSRP"] = $info["MSRP"];
                     $list[] = $row;
                 }
+                $info = getSaledPaintingInfo($row["PaintingID"],$conn);
+                if($info) {
+                    //$row["ImageLink"] = $info["ImageLink"];
+                    $row["ImageFileName"] = $info["ImageFileName"];
+                    $row["Title"] = $info["Title"];
+                    $row["MSRP"] = "已售出";
+                    $list[] = $row;
+                }
             }
             echo json_encode($list);
         } else {
@@ -85,7 +151,7 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
     }
 }
 
-// TODO: 删除购物车
+// TOkDO: 删除购物车
 
 function getSaledPaintingInfo($id,$conn) {
     if($id === null) return;

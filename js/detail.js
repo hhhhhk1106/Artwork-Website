@@ -119,6 +119,11 @@ function showInfo(obj) {
     if(list['wiki'] != null) {
         document.getElementById('wiki').href = list['wiki'];
     }
+    if(obj.Saled != 0) {
+        //已售出不能购买
+        var addCartButton = document.getElementById('addCart');
+        addCartButton.style.display = "none";
+    }
     //optional[0].style.display = 'block';
 }
 

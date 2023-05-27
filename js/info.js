@@ -131,7 +131,7 @@ function rechargeMoney(money) {
                 var temp = document.createElement("div");
                 temp.appendChild(old);
                 var newMoney = parseFloat(temp.innerHTML) + parseFloat(money);
-                var node = document.createTextNode(newMoney);
+                var node = document.createTextNode(parseFloat(newMoney));
                 balance.appendChild(node);
             }
         }
