@@ -19,62 +19,62 @@ Date.prototype.format = function(fmt) {
     return fmt; 
 }
 
-document.querySelector("#image").addEventListener("change", function(evt) {
-    localStorage.clear();
-    var image_src = URL.createObjectURL(this.files[0]);
-    var img = document.getElementById("image_preview");
-    img.src = image_src;
-    img.style.display = "none";
-    var maxSize = 4*1024*1024;
+// document.querySelector("#image").addEventListener("change", function(evt) {
+//     localStorage.clear();
+//     var image_src = URL.createObjectURL(this.files[0]);
+//     var img = document.getElementById("image_preview");
+//     img.src = image_src;
+//     img.style.display = "none";
+//     var maxSize = 4*1024*1024;
     
-    if(this.files[0].size > maxSize) {
-        myAlert('','图片过大，请重新上传',function(){
-            document.getElementById('image').value = "";
-        });
-        return;
-    }
+//     if(this.files[0].size > maxSize) {
+//         myAlert('','图片过大，请重新上传',function(){
+//             document.getElementById('image').value = "";
+//         });
+//         return;
+//     }
 
-    img.style.display = "block";
-    console.log(image_src);
-    console.log(this);
+//     img.style.display = "block";
+//     console.log(image_src);
+//     console.log(this);
 
-    var myDate = new Date().format("yyyyMMddhhmmss");
-    var imgName = myDate.toLocaleString()+".jpg";
+//     var myDate = new Date().format("yyyyMMddhhmmss");
+//     var imgName = myDate.toLocaleString()+".jpg";
 
-    // this.files[0].name = imgName;
-    console.log(this.files[0]);
+//     // this.files[0].name = imgName;
+//     console.log(this.files[0]);
 
-    //TODO: 提交再调用
-    baseImg(imgName,this.files[0]);
+//     //TODO: 提交再调用
+//     baseImg(imgName,this.files[0]);
 
-})
+// })
 
-function baseImg(imgName,file) {
-    var reader = new FileReader();
-    // console.log(reader);
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-        localStorage.setItem(imgName, reader.result);
-        // console.log(localStorage);
-        $.ajax({
-            method : 'post',
-            url : "../php/img_test.php",
-            dataType : "text",
-            data : {
-                //img : "this.files[0]",
-                imgName : imgName,
-                base64 : localStorage.getItem(imgName),
-            },
-            success : function(ret) {
-                console.log(ret);
-                //var obj = JSON.parse(ret);
-                //console.log(obj);
+// function baseImg(imgName,file) {
+//     var reader = new FileReader();
+//     // console.log(reader);
+//     reader.readAsDataURL(file);
+//     reader.onload = () => {
+//         localStorage.setItem(imgName, reader.result);
+//         // console.log(localStorage);
+//         $.ajax({
+//             method : 'post',
+//             url : "../php/img_test.php",
+//             dataType : "text",
+//             data : {
+//                 //img : "this.files[0]",
+//                 imgName : imgName,
+//                 base64 : localStorage.getItem(imgName),
+//             },
+//             success : function(ret) {
+//                 console.log(ret);
+//                 //var obj = JSON.parse(ret);
+//                 //console.log(obj);
                 
-            }
-        });
-    };
-    //reader.readAsDataURL(this.files[0]);
-    console.log(reader);
-    // console.log(reader.result);
-    //console.log(localStorage.getItem(imgName));
-}
+//             }
+//         });
+//     };
+//     //reader.readAsDataURL(this.files[0]);
+//     console.log(reader);
+//     // console.log(reader.result);
+//     //console.log(localStorage.getItem(imgName));
+// }

@@ -37,7 +37,12 @@ function getArtist($id,$conn) {
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row["FirstName"]." ".$row["LastName"];
+        if($row["FirstName"]) {
+            return $row["FirstName"]." ".$row["LastName"];
+        } else {
+            return $row["LastName"];
+        }
+        
     }
     return null;
 }

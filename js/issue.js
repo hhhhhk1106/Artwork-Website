@@ -28,10 +28,6 @@ if(userID === null) {
     window.onresize = function() {
         setButtonPos();
     }
-    document.querySelector("#image").addEventListener("click", function(evt) {
-        addImage();
-    })
-    
     
     var yearField = document.querySelector('#year');
     var titleField = document.querySelector('#title');
@@ -68,10 +64,32 @@ if(userID === null) {
         }
     }
 
+    var title = document.getElementById('title');
+    title.oninput = function() {
+        var titleError = document.getElementById('titleError');
+        if (titleField.value.length > 50) {
+            titleError.textContent = "名称不应超过50个字";
+            titleError.style.display = 'block';
+        } else {
+            titleError.style.display = 'none';
+        }
+    }
+
+    var artist = document.getElementById('artist');
+    artist.oninput = function() {
+        var artistError = document.getElementById('artistError');
+        if (artistField.value.length > 30) {
+            artistError.textContent = "作者姓名不应超过30个字";
+            artistError.style.display = 'block';
+        } else {
+            artistError.style.display = 'none';
+        }
+    }
+
     registrationForm.addEventListener('submit', function(event) {
         // prevent the default form submission behavior
         event.preventDefault();
-        console.log("subOK")
+        //console.log("subOK")
         // validate the input fields
         
         if (!isValidYear(yearField.value)) {
@@ -81,6 +99,14 @@ if(userID === null) {
             });
             return;
         }
+        if (titleField.value.length > 50) {
+            myAlert('','名称过长',function(){});
+            return;
+        }
+        if (artistField.value.length > 30) {
+            myAlert('','作者姓名过长',function(){});
+            return;
+        } 
     
         $.ajax({
             method : 'post',
@@ -95,26 +121,21 @@ if(userID === null) {
                 Height : heightField.value,
                 MSRP : priceField.value,
                 Description : descriptionField.value,
-                ImageFileName : addImage(imageField.value),
+                ImageFileName : addImage(),
                 IssueUserID : userID,
             },
             success : function(ret) {
-                obj = JSON.parse(ret);
-                console.log(obj);
-                displayAlert('success','注册成功！',150000);
-                // if(ret == "already") {
-                //     myAlert('','用户名已存在',function(){});
-                // } else if(ret == "captchaExpired") {
-                //     myAlert('','验证码已经过期，<br>请刷新页面重试。',function(){});
-                // } else if(ret == "captchaWrong") {
-                //     myAlert('','您输入的验证码不正确！<br>请刷新页面重试。',function(){});
-                // } else if(ret == "success") {
-                //     displayAlert('success','注册成功！',1500);
-                //     // displayAlert('success','2秒后跳转',1500);  // css被挡住了
-                //     setTimeout(function(){window.location.href='../html/login.html';},1500);
-                // } else {
-                //     myAlert('','注册失败，请稍后再试',function(){});
-                // }
+                //obj = JSON.parse(ret);
+                console.log(ret);            
+                if(ret == "fail") {
+                myAlert('','发布失败，请稍后重试',function(){});
+                } else if(ret == "success") {
+                    displayAlert('success','发布成功！',1500);
+                    //TOkDO: 跳转个人中心
+                    setTimeout(function(){window.location.href='../html/info.html';},1500);
+                } else {
+                    // myAlert('','注册失败，请稍后再试',function(){});
+                }
 
                 // var line = document.getElementsByName(paintingID);
                 // line[0].style.display = 'none';
@@ -126,6 +147,65 @@ if(userID === null) {
     
 }
 
+document.querySelector("#image").addEventListener("change", function(evt) {
+    localStorage.clear();
+    var image_src = URL.createObjectURL(this.files[0]);
+    var img = document.getElementById("image_preview");
+    img.src = image_src;
+    img.style.display = "none";
+    var maxSize = 4*1024*1024;
+    
+    if(this.files[0].size > maxSize) {
+        myAlert('','图片过大，请重新上传',function(){
+            document.getElementById('image').value = "";
+        });
+        return;
+    }
+
+    img.style.display = "block";
+    // console.log(image_src);
+    // console.log(this);
+
+    // var myDate = new Date().format("yyyyMMddhhmmss");
+    // var imgName = myDate.toLocaleString()+".jpg";
+
+    // this.files[0].name = imgName;
+    //console.log(this.files[0]);
+
+    //TOkDO: 提交再调用
+    //baseImg(imgName,this.files[0]);
+
+})
+
+function baseImg(imgName,file) {
+    var reader = new FileReader();
+    // console.log(reader);
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        localStorage.setItem(imgName, reader.result);
+        // console.log(localStorage);
+        $.ajax({
+            method : 'post',
+            url : "../php/img_test.php",
+            dataType : "text",
+            data : {
+                //img : "this.files[0]",
+                imgName : imgName,
+                base64 : localStorage.getItem(imgName),
+            },
+            success : function(ret) {
+                console.log(ret);
+                //var obj = JSON.parse(ret);
+                //console.log(obj);
+                
+            }
+        });
+    };
+    //reader.readAsDataURL(this.files[0]);
+    //console.log(reader);
+    // console.log(reader.result);
+    //console.log(localStorage.getItem(imgName));
+}
 
 function isValidYear(year) {
     var regex = /^[1-9][0-9]{0,3}$/;
@@ -168,7 +248,7 @@ var flag = true;
 // 将下拉框添加到页面的某个元素中
 var select_genre = document.getElementById("genre");
 select_genre.onfocus = function(){
-    console.log("selectOK");
+    // console.log("selectOK");
     if(flag) {
         for(let key in genres) {
             var opt=document.createElement("option");
@@ -184,22 +264,22 @@ select_genre.onfocus = function(){
     return;
 }
 
-function addImage(image) {
-    //TODO: 裁剪、分辨率、存到对应文件夹
+function addImage() {
+    //TOkDO: 裁剪、分辨率、存到对应文件夹
     var myDate = new Date().format("yyyyMMddhhmmss");
     // console.log(myDate.toLocaleString());
-    var imgName = myDate.toLocaleString()+".jpg";
+    var imgName = myDate.toLocaleString();
     var img = document.getElementById('image');
     
-    console.log(img.files[0]);
-    
+    // console.log(img.files[0]);
+    baseImg(imgName+".jpg",img.files[0]);
 
     return imgName;
 }
 
 function getGenreID(genre) {
     var result = Object.entries(genres).find(([key, val]) => val === genre);
-    console.log(result);
+    // console.log(result);
     return result[0];
 }
 
