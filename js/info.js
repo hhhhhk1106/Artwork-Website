@@ -13,7 +13,7 @@ if(userID === null) {
             myAPI : "userInfo",
         },
         success : function(ret) {
-            console.log(ret);
+            //console.log(ret);
             //未查询到该用户(id非数字或无对应数据)
             if(ret == "no") {
                 //TOkDO:跳转
@@ -26,13 +26,15 @@ if(userID === null) {
                 loadIssueItems(userID);
                 loadPaidItems(userID);
 
+
+
             }
         },
     })
     
     
     var money = document.getElementById('money');
-    console.log(money);
+    //console.log(money);
     var rechargeField = document.querySelector('#money');
     money.oninput = function(){
         // console.log("rechargeOK");
@@ -59,6 +61,7 @@ if(userID === null) {
             });
         }
     }
+
 }
 
 function showUserInfo(obj) {
@@ -163,6 +166,20 @@ function loadIssueItems(userID) {
                     //console.log(element);
                     showIssueItem(element);
                 })
+
+                var mod = document.getElementsByClassName('modify');
+                console.log(mod);
+                // console.log(del[0].attributes.getNamedItem('painting').value);//paintingID
+                var arr = Array.from(mod);
+                console.log(arr);
+                arr.forEach(element => {
+                    // 修改TODO:
+                    element.onclick = function() {
+                        console.log("click");
+                        var paintingID = element.attributes.getNamedItem('painting').value;
+                        window.location.href = "../html/issue.html?id="+paintingID;
+                    }
+                });
             }
         },
     })    
@@ -201,7 +218,7 @@ function loadPaidItems(userID) {
             myAPI : "paidInfo",
         },
         success : function(ret) {
-            console.log(ret);
+            //console.log(ret);
             if(ret == "no") {
                 //无商品
                 //window.location.href = "../html/error.html";
@@ -209,9 +226,9 @@ function loadPaidItems(userID) {
                 //显示
                 var obj = JSON.parse(ret);
                 //showUserInfo(obj);
-                console.log(obj);
+                //console.log(obj);
                 obj.forEach(element => {
-                    console.log(element);
+                    //console.log(element);
                     showPaidItem(element);
                 })
             }
@@ -220,7 +237,7 @@ function loadPaidItems(userID) {
 }
 
 function showPaidItem(element) {
-    console.log("here")
+    //console.log("here")
     var items = document.getElementById('paiditems');
     var imagesrc = "../image/square-small/"+element.ImageFileName+".jpg";
     var title = element.Title;

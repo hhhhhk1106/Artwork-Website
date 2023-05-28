@@ -31,7 +31,7 @@ if(userID === null) {
                 });
                 var del = document.getElementsByClassName('remove-btn');
                 // console.log(del.length);
-                // console.log(del);
+                console.log(del);
                 console.log("total");
                 console.log(total);
                 var Total = document.getElementById('total');
@@ -39,7 +39,7 @@ if(userID === null) {
                 // console.log(del[0].attributes.getNamedItem('painting').value);//paintingID
 
                 var arr = Array.from(del);
-                // console.log(arr);
+                console.log(arr);
                 arr.forEach(element => {
                     // 删除
                     element.onclick = function() {

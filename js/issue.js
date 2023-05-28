@@ -1,4 +1,14 @@
 var userID = sessionStorage.getItem("userID");
+var id = getUrlParam('id');
+var yearField = document.querySelector('#year');
+var titleField = document.querySelector('#title');
+var artistField = document.querySelector('#artist');
+var genreField = document.querySelector('#genre');
+var widthField = document.querySelector('#width');
+var heightField = document.querySelector('#height');
+var priceField = document.querySelector('#price');
+var descriptionField = document.querySelector('#description');
+var imageField = document.querySelector('#image');
 Date.prototype.format = function(fmt) { 
     var o = { 
     "M+" : this.getMonth()+1,                 //月份 
@@ -23,21 +33,21 @@ var registrationForm = document.querySelector('#product-form');
 if(userID === null) {
     //alert("用户未登录！");
     window.location.href = "../html/error.html";
-} else {
+} else if(id != null) {
+    //判断用户是否为该艺术品发布者并处理
     setButtonPos();
     window.onresize = function() {
         setButtonPos();
     }
+    document.getElementById('imageinf').innerHTML="修改图片：(小于4M)";
+    isOwner(id, userID);
     
-    var yearField = document.querySelector('#year');
-    var titleField = document.querySelector('#title');
-    var artistField = document.querySelector('#artist');
-    var genreField = document.querySelector('#genre');
-    var widthField = document.querySelector('#width');
-    var heightField = document.querySelector('#height');
-    var priceField = document.querySelector('#price');
-    var descriptionField = document.querySelector('#description');
-    var imageField = document.querySelector('#image');
+} else {
+    console.log("no id");
+    setButtonPos();
+    window.onresize = function() {
+        setButtonPos();
+    }
     
     // var submitButton = document.getElementById('subbut');
     // var realSubmit = document.getElementById('realsub');
@@ -45,46 +55,6 @@ if(userID === null) {
     //     realSubmit.click();
     //     registrationForm.submit();
     // }
-    
-
-    var year = document.getElementById('year');
-    year.oninput = function() {
-        var yearError = document.getElementById('yearError');
-        if (yearField.value.length == 0) {
-            yearError.textContent = "请输入年份";
-            yearError.style.display = 'block';
-        } else if(yearField.value > 2023) {
-            yearError.textContent = "不应超过2023";
-            yearError.style.display = 'block';
-        } else if(!isValidYear(yearField.value)) {
-            yearError.textContent = "请输入合法年份，如2023";
-            yearError.style.display = 'block';
-        } else {
-            yearError.style.display = 'none';
-        }
-    }
-
-    var title = document.getElementById('title');
-    title.oninput = function() {
-        var titleError = document.getElementById('titleError');
-        if (titleField.value.length > 50) {
-            titleError.textContent = "名称不应超过50个字";
-            titleError.style.display = 'block';
-        } else {
-            titleError.style.display = 'none';
-        }
-    }
-
-    var artist = document.getElementById('artist');
-    artist.oninput = function() {
-        var artistError = document.getElementById('artistError');
-        if (artistField.value.length > 30) {
-            artistError.textContent = "作者姓名不应超过30个字";
-            artistError.style.display = 'block';
-        } else {
-            artistError.style.display = 'none';
-        }
-    }
 
     registrationForm.addEventListener('submit', function(event) {
         // prevent the default form submission behavior
@@ -166,16 +136,46 @@ document.querySelector("#image").addEventListener("change", function(evt) {
     // console.log(image_src);
     // console.log(this);
 
-    // var myDate = new Date().format("yyyyMMddhhmmss");
-    // var imgName = myDate.toLocaleString()+".jpg";
-
-    // this.files[0].name = imgName;
-    //console.log(this.files[0]);
-
-    //TOkDO: 提交再调用
-    //baseImg(imgName,this.files[0]);
-
 })
+
+var year = document.getElementById('year');
+year.oninput = function() {
+    var yearError = document.getElementById('yearError');
+    if (yearField.value.length == 0) {
+        yearError.textContent = "请输入年份";
+        yearError.style.display = 'block';
+    } else if(yearField.value > 2023) {
+        yearError.textContent = "不应超过2023";
+        yearError.style.display = 'block';
+    } else if(!isValidYear(yearField.value)) {
+        yearError.textContent = "请输入合法年份，如2023";
+        yearError.style.display = 'block';
+    } else {
+        yearError.style.display = 'none';
+    }
+}
+
+var title = document.getElementById('title');
+title.oninput = function() {
+    var titleError = document.getElementById('titleError');
+    if (titleField.value.length > 50) {
+        titleError.textContent = "名称不应超过50个字";
+        titleError.style.display = 'block';
+    } else {
+        titleError.style.display = 'none';
+    }
+}
+
+var artist = document.getElementById('artist');
+artist.oninput = function() {
+    var artistError = document.getElementById('artistError');
+    if (artistField.value.length > 30) {
+        artistError.textContent = "作者姓名不应超过30个字";
+        artistError.style.display = 'block';
+    } else {
+        artistError.style.display = 'none';
+    }
+}
 
 function baseImg(imgName,file) {
     var reader = new FileReader();
@@ -283,3 +283,147 @@ function getGenreID(genre) {
     return result[0];
 }
 
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) {
+        return decodeURI(r[2]);
+    }
+    return null; //返回参数值
+}
+
+function isOwner(id,userID) {
+    $.ajax({
+        method : 'post',
+        url : "../php/issue.php",
+        dataType : "text",
+        data : {
+            PaintingID : id,
+            UserID : userID,
+        },
+        success : function(ret) {
+            //return ret;
+            console.log(ret);
+            if(ret != "yes") {
+                window.location.href = "../html/error.html";
+                return false;
+            }
+            // 处理
+            console.log("here")
+            getPaintingInfo(id);
+        },
+    })
+}
+
+function getPaintingInfo(id) {
+    $.ajax({
+        method : 'get',
+        url : "../php/issue.php",
+        dataType : "text",
+        data : {
+            PaintingID : id,
+            myAPI : "update",
+        },
+        success : function(ret) {
+            //return ret;
+            var obj = JSON.parse(ret);
+            console.log(obj);
+
+            // 填充表单
+            var title = document.getElementById('title');
+            title.value = obj.Title;
+            document.getElementById('artist').value = obj.ArtistName;
+            document.getElementById('year').value = obj.YearOfWork;
+            //document.getElementById('genre').innerHTML = obj.GenreName;
+            var opt=document.createElement("option");
+            opt.innerHTML=obj.GenreName;
+            select_genre.appendChild(opt);
+            opt.selected = true;
+            document.getElementById('width').value = obj.Width;
+            document.getElementById('height').value = obj.Height;
+            document.getElementById('price').value = obj.MSRP;
+            document.getElementById('image').required = false;
+            document.getElementById('description').value = obj.Description;
+            var img = document.getElementById('image_preview');
+            img.src = "../image/large/"+obj.ImageFileName+".jpg";
+            img.style.display = "block";
+
+            registrationForm.addEventListener('submit', function(event) {
+                // prevent the default form submission behavior
+                event.preventDefault();
+                
+                if (!isValidYear(yearField.value)) {
+                    //alert('请输入合法的用户名！');
+                    myAlert('','请输入合法年份',function(){});
+                    return;
+                }
+                if (titleField.value.length > 50) {
+                    myAlert('','名称过长',function(){});
+                    return;
+                }
+                if (artistField.value.length > 30) {
+                    myAlert('','作者姓名过长',function(){});
+                    return;
+                }
+            
+                var newData = {};
+                newData["myAPI"] = "update";
+                newData["PaintingID"] = id;
+
+                newData["Title"] = titleField.value;
+                newData["LastName"] = artistField.value;
+                newData["YearOfWork"] = yearField.value;
+                newData["GenreID"] = getGenreID(genreField.value);
+                newData["Width"] = widthField.value;
+                newData["Height"] = heightField.value;
+                newData["MSRP"] = priceField.value;
+                newData["Description"] = descriptionField.value;
+                var newImg = document.getElementById('image');
+                //if()
+                console.log(newImg);
+                console.log(newImg.files[0]);
+                if(newImg.files[0]) {
+                    newData["ImageFileName"] = addImage();
+                }
+                //newData["ImageFileName"] = addImage();
+
+                $.ajax({
+                    method : 'post',
+                    url : "../php/issue.php",
+                    dataType : "text",
+                    //data : {
+                        // myAPI : "update",
+                        // PaintingID : id,
+                        // Title : titleField.value,
+                        // LastName : artistField.value,
+                        // YearOfWork: yearField.value,
+                        // GenreID : getGenreID(genreField.value),
+                        // Width : widthField.value,
+                        // Height : heightField.value,
+                        // MSRP : priceField.value,
+                        // Description : descriptionField.value,
+                        //ImageFileName : addImage(),
+
+                    //},
+                    data : newData,
+                    success : function(ret) {
+                        //obj = JSON.parse(ret);
+                        console.log(ret);            
+                        // if(ret == "fail") {
+                        // myAlert('','发布失败，请稍后重试',function(){});
+                        // } else if(ret == "success") {
+                        //     displayAlert('success','发布成功！',1500);
+                        //     //TOkDO: 跳转个人中心
+                        //     setTimeout(function(){window.location.href='../html/info.html';},1500);
+                        // } else {
+                        //     // myAlert('','注册失败，请稍后再试',function(){});
+                        // }
+                    }
+                })
+        
+        
+            });
+            
+        },
+    })
+}
