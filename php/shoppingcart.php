@@ -94,6 +94,30 @@ if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
                         $stmt3 = $conn->prepare("UPDATE paintings SET Saled = 1 WHERE PaintingID = ?");
                         $stmt3->bind_param("i", $row1["PaintingID"]);
                         $stmt3->execute();
+
+                        $stmt = $conn->prepare("SELECT IssueUserID,MSRP FROM paintings WHERE PaintingID = ?");
+                        $stmt->bind_param("i", $row1["PaintingID"]);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if($result->num_rows === 1) {
+                            $row = $result->fetch_assoc();
+                            $IssueUserID = $row["IssueUserID"];
+                            $MSRP = $row["MSRP"];
+                            if($IssueUserID != null) {
+                                $stmt = $conn->prepare("SELECT Balance FROM account WHERE UserID = ?");
+                                $stmt->bind_param("i", $IssueUserID);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $row2 = $result->fetch_assoc();
+                                $Balance1 = $row2["Balance"];
+                                $Balance1 += $MSRP;
+
+                                $stmt = $conn->prepare("UPDATE account SET Balance = ? WHERE UserID = ?");
+                                $stmt->bind_param("di", $Balance1, $IssueUserID);
+                                $stmt->execute();
+                            }
+                        }
                     }
                     // foreach($list as $key => $value) {
                     //     $stmt3 = $conn->prepare("UPDATE paintings SET Saled = 1 WHERE PaintingID = ?");

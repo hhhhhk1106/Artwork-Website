@@ -38,7 +38,8 @@ addShoppingCart.addEventListener('submit', function(event) {
     // 判断session
     var userID = sessionStorage.getItem("userID");
     if(userID === null) {
-        alert("用户未登录！");
+        myAlert('','用户未登录！',function(){});
+        //alert("用户未登录！");
         return;
     }
 
@@ -57,10 +58,12 @@ addShoppingCart.addEventListener('submit', function(event) {
             //未查询到该painting(id非数字或无对应数据)
             if(ret == "success") {
                 // console.log("yeah");
-                alert("添加成功");
+                displayAlert('success','添加成功',1500);
+                //alert("添加成功");
                 //window.location.href = "../html/error.html";
             } else if(ret == "already") {
-                alert("购物车中已有该艺术品");
+                myAlert('','购物车中已有该艺术品',function(){});
+                //alert("购物车中已有该艺术品");
             } else {
                 //显示
                 // var obj = JSON.parse(ret);

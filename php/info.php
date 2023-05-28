@@ -31,16 +31,39 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
         }  
     }
 
-    // TODO: 个人信息：已发布、已售出、已购买
-    if($myAPI == "paintingInfo") {
-        $stmt = $conn->prepare("SELECT * FROM customers WHERE CustomerID = ?");
+    // TOkDO: 个人信息：已发布、已售出
+    if($myAPI == "issueInfo") {
+        $stmt = $conn->prepare("SELECT * FROM paintings WHERE IssueUserID = ?");
         $stmt->bind_param("i", $userID);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        if($result->num_rows === 1) {
-            //
-            echo json_encode($row);
+        $list = array();
+        if($result->num_rows > 0) {
+            while ($row = $result->fetch_array()) {
+                $list[] = $row;
+            }
+            echo json_encode($list);
+        } else {
+            echo "no";
+        }          
+    }
+
+    // TODO: 已下单
+    if($myAPI == "paidInfo") {
+        $stmt = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ? AND `State` = 1");
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $list = array();
+        if($result->num_rows > 0) {
+            while ($row = $result->fetch_array()) {
+                $info = getPaintingInfo($row["PaintingID"],$conn);
+                $row["ImageFileName"] = $info["ImageFileName"];
+                $row["Title"] = $info["Title"];
+                $row["MSRP"] = $info["MSRP"];
+                $list[] = $row;
+            }
+            echo json_encode($list);
         } else {
             echo "no";
         }          
@@ -83,4 +106,19 @@ function getBalance($id,$conn) {
         return $row["Balance"];
     }
     return null;
+}
+
+function getPaintingInfo($id,$conn) {
+    if($id === null) return;
+    $stmt = $conn->prepare("SELECT ImageFileName,Title,ROUND(MSRP,2) as MSRP FROM paintings WHERE PaintingID = ? AND Saled = 1");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        return $row;
+    } else {
+        return;
+    }
 }

@@ -23,6 +23,9 @@ if(userID === null) {
                 var obj = JSON.parse(ret);
                 showUserInfo(obj);
                 //console.log(title);
+                loadIssueItems(userID);
+                loadPaidItems(userID);
+
             }
         },
     })
@@ -135,4 +138,99 @@ function rechargeMoney(money) {
             }
         }
     });
+}
+
+function loadIssueItems(userID) {
+    $.ajax({
+        method : 'get',
+        url : "../php/info.php",
+        dataType : "text",
+        data : {
+            UserID : userID,
+            myAPI : "issueInfo",
+        },
+        success : function(ret) {
+            //console.log(ret);
+            //无商品
+            if(ret == "no") {
+                //window.location.href = "../html/error.html";
+            } else {
+                //显示
+                var obj = JSON.parse(ret);
+                //showUserInfo(obj);
+                //console.log(obj);
+                obj.forEach(element => {
+                    //console.log(element);
+                    showIssueItem(element);
+                })
+            }
+        },
+    })    
+}
+
+function showIssueItem(element) {
+    console.log("here")
+    var items = document.getElementById('issueitems');
+    var imagesrc = "../image/square-small/"+element.ImageFileName+".jpg";
+    var title = element.Title;
+    var price = element.MSRP;
+    var saled = (element.Saled==0)?"未售出":"已售出";
+    var div_item1 = '<tbody name="';
+    var div_item2 = '"><tr><td><img alt="艺术品图片" src="';
+    var div_item3 = '" class="issue-item-image"></td><td>'
+    var div_item4 = '</td><td>';
+    var div_item5 = '</td><td>';
+    var div_item6 = '</td><td><button class="modify" painting="';
+    var div_item7 = '">修改</button></td></div></tr></tbody>';
+    if(!element.Saled) {
+        var div_item = div_item1+element.PaintingID+div_item2+imagesrc+div_item3+title+div_item4+price+div_item5+saled+div_item6+element.PaintingID+div_item7;
+    } else {
+        var div_item = div_item1+element.PaintingID+div_item2+imagesrc+div_item3+title+div_item4+price+div_item5+saled+div_item5+"</td>";
+    }
+    
+    items.innerHTML += div_item;
+}
+
+function loadPaidItems(userID) {
+    $.ajax({
+        method : 'get',
+        url : "../php/info.php",
+        dataType : "text",
+        data : {
+            UserID : userID,
+            myAPI : "paidInfo",
+        },
+        success : function(ret) {
+            console.log(ret);
+            if(ret == "no") {
+                //无商品
+                //window.location.href = "../html/error.html";
+            } else {
+                //显示
+                var obj = JSON.parse(ret);
+                //showUserInfo(obj);
+                console.log(obj);
+                obj.forEach(element => {
+                    console.log(element);
+                    showPaidItem(element);
+                })
+            }
+        },
+    })    
+}
+
+function showPaidItem(element) {
+    console.log("here")
+    var items = document.getElementById('paiditems');
+    var imagesrc = "../image/square-small/"+element.ImageFileName+".jpg";
+    var title = element.Title;
+    var price = element.MSRP;
+    var div_item1 = '<tbody name="';
+    var div_item2 = '"><tr><td><img alt="艺术品图片" src="';
+    var div_item3 = '" class="issue-item-image"></td><td>'
+    var div_item4 = '</td><td>';
+
+    var div_item = div_item1+element.PaintingID+div_item2+imagesrc+div_item3+title+div_item4+price+"</td>";
+    
+    items.innerHTML += div_item;
 }

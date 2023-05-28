@@ -64,7 +64,7 @@ header form button {
   color: #fff;
   border: none;
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: royalblue;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -237,11 +237,11 @@ th {
   color: white;
 }
 
-.modify button {
+button.modify, button.info {
   padding: 5px;
   color: #fff;
   border: none;
-  background-color: #007bff;
+  background-color: royalblue;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -272,7 +272,7 @@ ul#userinfo {
 
 button#recharge {
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: royalblue;
   color: #fff;
   border: none;
   border-radius: 3px;
