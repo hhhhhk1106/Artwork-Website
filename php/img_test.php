@@ -15,8 +15,5 @@ if (isset($_POST['imgName'])){
     $len = fwrite($fp, base64_decode($base64));
     fclose($fp);
     echo $len .'字节被写入了\n';
-    // if(strstr($photo, ',')){
-    //     $photo = explode(',', $photo);
-    //     $photo = $photo[1];
-    // }
+
 }
