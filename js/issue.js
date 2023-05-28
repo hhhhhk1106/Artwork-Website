@@ -40,6 +40,7 @@ if(userID === null) {
         setButtonPos();
     }
     document.getElementById('imageinf').innerHTML="修改图片：(小于4M)";
+    document.getElementById('subbut').innerHTML="保存";
     isOwner(id, userID);
     
 } else {
@@ -411,13 +412,14 @@ function getPaintingInfo(id) {
                         console.log(ret);            
                         // if(ret == "fail") {
                         // myAlert('','发布失败，请稍后重试',function(){});
-                        // } else if(ret == "success") {
-                        //     displayAlert('success','发布成功！',1500);
-                        //     //TOkDO: 跳转个人中心
-                        //     setTimeout(function(){window.location.href='../html/info.html';},1500);
-                        // } else {
-                        //     // myAlert('','注册失败，请稍后再试',function(){});
-                        // }
+                        // } else 
+                        if(ret == "success") {
+                            displayAlert('success','修改成功！',1500);
+                            //TOkDO: 跳转个人中心
+                            setTimeout(function(){window.location.href='../html/info.html';},1500);
+                        } else {
+                            
+                        }
                     }
                 })
         

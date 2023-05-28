@@ -60,7 +60,7 @@ form button {
   color: #fff;
   border: none;
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: royalblue;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -120,7 +120,7 @@ footer {
   .comment-form button {
     display: block;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: royalblue;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -172,7 +172,7 @@ footer {
     display: block;
     margin: 10px 0;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: royalblue;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -184,7 +184,7 @@ footer {
     display: block;
     margin: 10px 0;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: royalblue;
     color: #fff;
     border: none;
     border-radius: 4px;

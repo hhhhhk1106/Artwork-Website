@@ -75,7 +75,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #0069d9;
+  background-color: royalblue;
 }
 
 .form-links {
@@ -91,7 +91,7 @@ button[type="submit"]:hover {
 }
 
 .form-links a:hover {
-  color: #0069d9;
+  color: royalblue;
 }
 
 div.line {

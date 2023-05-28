@@ -60,7 +60,7 @@
     color: #fff;
     border: none;
     padding: 5px 10px;
-    background-color: #007bff;
+    background-color: royalblue;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -88,6 +88,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    margin-bottom: 20px;
   }
   
   h1 {
@@ -148,7 +149,7 @@
     display: block;
     margin: 10px 0;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: royalblue;
     color: #fff;
     border: none;
     border-radius: 4px;
