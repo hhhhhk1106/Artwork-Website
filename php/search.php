@@ -18,10 +18,25 @@ if($myAPI == "all") {
     $results = array();
     $sql = "SELECT COUNT(PaintingID) FROM paintings";
     $result = $conn->query($sql);
-    $list["total"] = $result->fetch_assoc()["COUNT(PaintingID)"];
+    // $list["total"] = $result->fetch_assoc()["COUNT(PaintingID)"];
     $list["now"] = $page;
 
     $sql = "SELECT * FROM paintings";
+    if(isset($_GET['keyword'])&&$_GET['keyword']!='') {
+        $list["keyword"] = $_GET['keyword'];
+        $keyword = $_GET['keyword'];
+        $type = "title";
+        if(isset($_GET['type'])&&$_GET['type']=="artist") {
+            $type = $_GET['type'];
+        }
+        $list["type"] = $type;
+        // WHERE title LIKE '%$keyword%'
+        if($type == "title") { //价格从低到高
+            $sql = $sql." WHERE Title LIKE '%$keyword%'";
+        } else if($type == "artist") {
+            $sql = "SELECT * FROM paintings,artists WHERE paintings.ArtistID = artists.ArtistID AND (artists.FirstName LIKE '%$keyword%' OR artists.LastName LIKE '%$keyword%')";
+        }
+    }
     if(isset($_GET['order'])) {
         $list["order"] = $_GET['order'];
         $order = $_GET['order'];
@@ -43,8 +58,13 @@ if($myAPI == "all") {
             $sql = $sql." ORDER BY Width*Height DESC";
         }
     }
+    $result = $conn->query($sql);
+    $sql_total = "SELECT FOUND_ROWS()";
+    $result_total = $conn->query($sql_total);
+    $list["total"] = $result_total->fetch_assoc()["FOUND_ROWS()"];
     $sql = $sql . " LIMIT $offset, $limit";
     $result = $conn->query($sql);
+
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             //$info = getPaintingInfo($row["PaintingID"],$conn);

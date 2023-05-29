@@ -31,8 +31,13 @@
             </div>
             <div class="choice">
                 <div class="radio-group">
-                    <label><input type="radio" name="search-type" value="name" checked>按名称搜索</label>
-                    <label><input type="radio" name="search-type" value="author">按作者搜索</label>
+					<label>搜索方式：</label>
+                    <select name="sort-by" id="entry">
+					  <option value="title">按名称搜索</option>
+                      <option value="artist">按作者搜索</option>
+                    </select>
+                    <!-- <label><input type="radio" name="search-type" value="title" checked>按名称搜索</label>
+                    <label><input type="radio" name="search-type" value="artist">按作者搜索</label> -->
                   </div>
                   <div class="sort-group">
                     <label>排序方式：</label>
@@ -70,6 +75,9 @@
 				</thead>
 			  </table> -->
 			
+		</div>
+		<div id="totalinfo">
+			无符合条件的结果
 		</div>
 
 		<ul class="paging">

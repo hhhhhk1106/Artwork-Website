@@ -1,15 +1,21 @@
 var keyword = getUrlParam('keyword');
 console.log(keyword);
+if(keyword) {
+    document.getElementById('serachtext').value=keyword;
+}
 
 var currentPage = 1;
 var perPage = 10;
 var totalPageNum = 0;
 var order = null;
+var type = "title";
 
-getPageItems(currentPage,perPage);
+getPageItems(currentPage,perPage,keyword);
 
 function getPageItems(nowPage,perPage,keyword,order) {
-    if(keyword == null) {
+    console.log(keyword);
+    // if(keyword == null) {
+    if(true) {
         $.ajax({
             method : 'get',
             url : "../php/search.php",
@@ -18,7 +24,9 @@ function getPageItems(nowPage,perPage,keyword,order) {
                 myAPI : "all",
                 page : nowPage,
                 limit : perPage,
+                keyword : keyword,
                 order : order,
+                type : type,
             },
             success : function(ret) {
                 //console.log(ret);
@@ -27,10 +35,14 @@ function getPageItems(nowPage,perPage,keyword,order) {
                 if(ret == "0") {
                     //window.location.href = "../html/error.html";
                     // TODO: 找到0个结果
+                    var totalinfo = document.getElementById("totalinfo");
+                    totalinfo.innerHTML = "无符合条件的结果";
                 } else {
                     //显示
                     var results = obj.results;
                     var total = obj.total;
+                    var totalinfo = document.getElementById("totalinfo");
+                    totalinfo.innerHTML = "共搜到 "+total+" 个结果";
                     var pagenow = document.getElementById("pagenow");
                     currentPage = Number(obj.now);
                     pagenow.innerHTML = "第 "+currentPage+" 页";
@@ -54,7 +66,7 @@ function getPageItems(nowPage,perPage,keyword,order) {
 
 // 上一页
 var prev = document.getElementsByClassName('be-pager-prev');
-console.log(prev);
+// console.log(prev);
 prev[0].onclick = function() {
     console.log(this);
     emptyItems();
@@ -84,17 +96,17 @@ last.onclick = function() {
 
 // 首位页禁止上下一页
 function checkBound() {
-    if(currentPage == 1) {
+    if(totalPageNum == 1) {
         // 在首页
         prev[0].style.display = "none";
-        next[0].style.display = "inline-block";
+        next[0].style.display = "none";
     } else if(currentPage == totalPageNum) {
         // 在尾页
         prev[0].style.display = "inline-block";
         next[0].style.display = "none";
-    } else if(totalPageNum == 1) {
+    } else if(currentPage == 1) {
         prev[0].style.display = "none";
-        next[0].style.display = "none";
+        next[0].style.display = "inline-block";
     } else {
         prev[0].style.display = "inline-block";
         next[0].style.display = "inline-block";
@@ -198,3 +210,23 @@ sort.onchange = function() {
     order = sort.value;
     getPageItems(currentPage,perPage,keyword,order);
 }
+
+var entry = document.getElementById('entry');
+entry.onchange = function() {
+    // console.log(sort.value);
+    emptyItems();
+    type = entry.value;
+    getPageItems(currentPage,perPage,keyword,order);
+}
+
+var search = document.getElementById('search');
+search.onclick = function() {
+    var serachtext = document.getElementById('serachtext').value;
+
+    window.location.href = "../html/search.html";
+    if(serachtext) {
+        window.location.href = "../html/search.html?keyword="+serachtext;
+    }
+}
+
+
