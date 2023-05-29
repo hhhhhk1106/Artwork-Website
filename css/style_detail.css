@@ -123,6 +123,9 @@ h1 {
 .product-details {
 	flex-basis: 50%;
 	margin-top: 20px;
+}
+
+.product-details a {
 	word-break: break-all;
 }
 

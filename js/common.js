@@ -1,7 +1,3 @@
-// var div = document.querySelector('div');
-// var a =location.search.substr(1);
-// var arr = a.split('=');
-// div.innerHTML = '欢迎您'+arr[1];
 document.write('<script src="../js/box.js"></script>');
 
 var username = sessionStorage.getItem("username");
@@ -27,6 +23,28 @@ logout.onclick = function() {
 			}
 		},
   })
+}
+
+var search = document.getElementById('search');
+search.onclick = function() {
+  console.log("searchOK")
+  $.ajax({
+    method : 'get',
+    url : "../php/search.php",
+    dataType : "text",
+    success : function(ret) {
+        console.log(ret);
+        window.location.href = '../html/search.html';
+        // if(ret == "no") {
+        //     //TOkDO:跳转
+        //     window.location.href = "../html/error.html";
+        // } else {
+        //     //显示
+
+        // }
+    },
+})
+  
 }
 
 function changeLoginCSS(username) {

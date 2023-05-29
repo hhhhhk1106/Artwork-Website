@@ -96,6 +96,7 @@ function showInfo(obj) {
     list["subject"] = obj.SubjectName;
     list["shape"] = obj.ShapeName;
 
+
     // set CSS
     var productImage = document.getElementById('product-image');
     productImage.src = obj.ImageLink;
@@ -104,6 +105,8 @@ function showInfo(obj) {
     document.getElementById('title').innerHTML = obj.Title;
     document.getElementById('artist').innerHTML = obj.ArtistName;
     document.getElementById('price').innerHTML = obj.MSRP;
+    document.getElementById('visit').innerHTML = obj.Visit;
+    document.getElementById('size').innerHTML = obj.Width+" * "+obj.Height;
     document.getElementById('saled').innerHTML = (obj.Saled===0?"未售出":"已售出");
     document.getElementById('year').innerHTML = obj.YearOfWork;
 

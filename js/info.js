@@ -25,9 +25,6 @@ if(userID === null) {
                 //console.log(title);
                 loadIssueItems(userID);
                 loadPaidItems(userID);
-
-
-
             }
         },
     })

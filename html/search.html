@@ -26,8 +26,8 @@
 		
 		<div class="content">
 			<div class="search">
-                <input type="text" placeholder="塞尔达王国之泪">
-                <button>搜索</button>
+				<input type="text" placeholder="请输入……" id="serachtext">
+				<button type="submit" id="search">搜索</button>
             </div>
             <div class="choice">
                 <div class="radio-group">
@@ -36,41 +36,55 @@
                   </div>
                   <div class="sort-group">
                     <label>排序方式：</label>
-                    <select name="sort-by">
+                    <select name="sort-by" id="order">
+						<option value="default">默认</option>
                       <option value="price">价格从低到高</option>
                       <option value="price-desc">价格从高到低</option>
-                      <option value="rating">评价从高到低</option>
+                      <option value="year">年份由远及近</option>
+					  <option value="year-desc">年份由近及远</option>
+					  <option value="visit-desc">访问量从多到少</option>
+					  <option value="visit">访问量从少到多</option>
+					  <option value="size">大小从小到大</option>
+					  <option value="size-desc">大小从大到小</option>
                     </select>
                   </div>
             </div>
-			<div class="results">
-			<div class="result">
+			<div class="results"  id="searchresults">
+			<!-- <div class="result">
 				<img src="image/1.jpg" alt="Product Image">
 				<div class="info">
 				  <h2>Product Name</h2>
 				  <p>Product Description</p>
 				</div>
 				<a href="#">View Details</a>
-			  </div>
-			  <div class="result">
-				<img src="image/3.jpg" alt="Product Image">
-				<div class="info">
-				  <h2>Product Name</h2>
-				  <p>Product Description</p>
-				</div>
-				<a href="#">View Details</a>
-			  </div>
-			  <div class="result">
-				<img src="image/7.jpg" alt="Product Image">
-				<div class="info">
-				  <h2>Product Name</h2>
-				  <p>Product Description</p>
-				</div>
-				<a href="#">View Details</a>
-			  </div>
+			  </div> -->
+
 		    </div>
+			<!-- <table class="search-item" id="searchitems">
+				<thead>
+				  <tr>
+					<td>艺术品图片</td>
+					<td>艺术品名称</td>
+					<td>价格</td>
+				  </tr>
+				</thead>
+			  </table> -->
 			
 		</div>
+
+		<ul class="paging">
+			<li title="首页" class="be-pager-item" id="firstpage"><a>首页</a></li>
+			<!-- <li title="上一页" class="be-pager-prev be-pager-disabled"><a>上一页</a></li> -->
+			<li title="上一页" class="be-pager-prev"><a>上一页</a></li>
+			<span class="be-pager-now" id="pagenow">第 1 页</span>
+			<li class="be-pager-item-jump-next"></li>			
+			<li title="下一页" class="be-pager-next"><a>下一页</a></li>
+			<li title="尾页" class="be-pager-item" id="lastpage"><a>尾页</a></li>
+			<span class="be-pager-total" id="totalpage">共 0 页，</span>
+			<span class="be-pager-options-elevator">跳至
+				<input type="text" class="space_input" id="pageelevator">页
+		  	</span>
+		</ul>
 	</main>
 	<footer>
 		<p>&copy; 2023 cHui3. All rights reserved.</p>
@@ -78,4 +92,5 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../js/common.js"></script>
+<script src="../js/search.js"></script>
 </html>
