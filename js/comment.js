@@ -47,6 +47,7 @@ if(id === null) {
                     showComment(element);
                 });
                 dealReply();
+                dealLike();
             }
         },
     })
@@ -124,8 +125,15 @@ function createComment(element) {
     var like_button = document.createElement("button");
     like_button.className = "like-button";
     like_button.name = element.CommentID;
-    like_button.innerHTML = "赞 0"; // TODO:
+    // var likeobj = getLikes(element.CommentID);
+    // console.log(likeobj);
+    like_button.innerHTML = "赞 0";
+    // if(likeobj.liked === 1) {
+    //     like_button.style.backgroundColor = "royalblue";
+    //     like_button.style.color = "white";
+    // } 
     div_commentfooter.appendChild(like_button);
+    
 
     div_comment.appendChild(div_commentheader);
     div_comment.appendChild(div_commentbody);
@@ -297,6 +305,80 @@ function sendReply(info) {
             },
         })
     }
+}
+
+function dealLike() {
+    var newlike = document.getElementsByClassName('like-button');
+    // console.log(newreply);
+    for(var i=0;i<newlike.length;i++) {
+        // console.log(newreply[i])
+        getLikes(newlike[i].parentElement.parentElement.name)
+        // setLikeCSS(newlike[i].parentElement.parentElement.name)
+        newlike[i].onclick = function() {
+            if(!userID) {
+                myAlert('','请登录后再点赞',function(){});
+            } else {
+                // var hier = this.parentElement.parentElement.parentElement.className;
+                var CommentID = this.parentElement.parentElement.name;
+
+                // console.log(CommentID);
+                $.ajax({
+                    method : 'post',
+                    url : "../php/comment.php",
+                    dataType : "text",
+                    data : {
+                        CommentID : CommentID,
+                        myAPI : "like",
+                        UserID : userID,
+                    },
+                    success : function(ret) {
+                        // console.log(ret);
+                        if(ret == "success") {
+
+                        } else {
+        
+                        }
+                    },
+                })
+                getLikes(CommentID);
+            }
+        }
+    }
+}
+
+function getLikes(CommentID) {
+    // console.log("getlikehere");
+
+    $.ajax({
+        method : 'get',
+        url : "../php/comment.php",
+        dataType : "text",
+        data : {
+            CommentID : CommentID,
+            myAPI : "getlike",
+            UserID : userID,
+        },
+        success : function(ret) {
+            // console.log(ret);
+            var obj = JSON.parse(ret);
+            // console.log(obj);
+            // return obj;
+            var likebtns = document.getElementsByClassName('like-button');
+            // console.log(likebtns.namedItem(CommentID));
+            var like_button = likebtns.namedItem(CommentID);
+            like_button.innerHTML = "赞 "+obj.num;
+            if(obj.liked === 1) {
+                // like_button.style.color = "royalblue";
+                like_button.style.backgroundColor = "cornflowerblue";
+                like_button.style.color = "white";
+            } else {
+                like_button.style.backgroundColor = "white";
+                like_button.style.color = "royalblue";
+            }
+        },
+    })
+    // console.log(obj);
+    // return obj;
 }
 
 //获取url中的参数

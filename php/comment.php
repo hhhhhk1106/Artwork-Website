@@ -7,11 +7,11 @@ if ($conn->connect_error) {
 }
 $conn->select_db("art");
 
-if(isset($_GET['id'])) {
-    $id = $_GET['id'];
+if(isset($_GET['myAPI'])) {
     $myAPI = $_GET['myAPI'];
     // 加载评论
     if($myAPI == "load") {
+        $id = $_GET['id'];
         $results = array();
         $stmt = $conn->prepare("SELECT * FROM comments WHERE PaintingID = ?");
         $stmt->bind_param("i", $id);
@@ -31,6 +31,35 @@ if(isset($_GET['id'])) {
         } else {
             echo "no";
         }
+    }
+
+    if($myAPI == "getlike") {
+        $CommentID = $_GET['CommentID'];
+        $results = array();
+        // $num = 0;
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM likes WHERE CommentID = ?");
+        $stmt->bind_param("i", $CommentID);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $num = $result["COUNT(*)"];
+        $results["num"] = $num;
+        $liked = 0;
+
+        if(isset($_GET['UserID'])) {
+            $UserID = $_GET['UserID'];
+            $stmt = $conn->prepare("SELECT * FROM likes WHERE CommentID = ? AND UserID = ?");
+            $stmt->bind_param("ii", $CommentID, $UserID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows == 0) {
+                $liked = 0;
+            } else {
+                $liked = 1;
+            }
+        }
+        $results["liked"] = $liked;
+
+        echo json_encode($results);
     }
 
 }
@@ -81,6 +110,27 @@ if(isset($_POST["myAPI"])) {
         $stmt = $conn->prepare("UPDATE comments SET `State` = 1 WHERE CommentID = ? AND UserID = ?");
         $stmt->bind_param("ii",$CommentID,$UserID);
         $stmt->execute();
+        echo "success";
+    }
+
+    // 点赞
+    if($_POST["myAPI"] == "like") {
+        // echo $_POST["ReviewDate"];
+        $CommentID = $_POST['CommentID'];
+        $UserID = $_POST['UserID'];
+        $stmt = $conn->prepare("SELECT * FROM likes WHERE CommentID = ? AND UserID = ?");
+        $stmt->bind_param("ii", $CommentID, $UserID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 0) {
+            $stmt = $conn->prepare("INSERT INTO likes (CommentID,UserID) VALUES (?,?)");
+            $stmt->bind_param("ii",$CommentID,$UserID);
+            $stmt->execute();
+        } else {
+            $stmt = $conn->prepare("DELETE FROM likes WHERE CommentID = ? AND UserID = ?");
+            $stmt->bind_param("ii",$CommentID,$UserID);
+            $stmt->execute();
+        }
         echo "success";
     }
 }
