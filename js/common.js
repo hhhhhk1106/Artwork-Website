@@ -1,4 +1,5 @@
 document.write('<script src="../js/box.js"></script>');
+//TODO: document.write('<audio src="../music/宇多田ヒカル-One Last Kiss.mp3" id="music" autoplay="autoplay" controls="controls" preload="auto"></audio>');
 
 var username = sessionStorage.getItem("username");
 var userID = sessionStorage.getItem("userID");
@@ -25,6 +26,9 @@ logout.onclick = function() {
   })
 }
 
+// var music = document.getElementById('music');
+// music.click();
+
 var search = document.getElementById('search');
 search.onclick = function() {
   console.log("searchOK")
@@ -34,7 +38,13 @@ search.onclick = function() {
     dataType : "text",
     success : function(ret) {
         console.log(ret);
-        window.location.href = '../html/search.html';
+        var serachtext = document.getElementById('serachtext').value;
+
+        window.location.href = "../html/search.html";
+        if(serachtext) {
+            window.location.href = "../html/search.html?keyword="+serachtext;
+        }
+        //window.location.href = '../html/search.html';
         // if(ret == "no") {
         //     //TOkDO:跳转
         //     window.location.href = "../html/error.html";
@@ -43,7 +53,8 @@ search.onclick = function() {
 
         // }
     },
-})
+  })
+
   
 }
 

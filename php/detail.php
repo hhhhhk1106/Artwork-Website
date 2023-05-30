@@ -26,6 +26,11 @@ if($result->num_rows === 1) {
     $row["ShapeName"] = getShape($row["ShapeID"],$conn);
     $row["SubjectName"] = getSubject($id,$conn);
 
+    $visit = $row["Visit"] + 1;
+    $stmt = $conn->prepare("UPDATE paintings SET `Visit` = ? WHERE `PaintingID` = ?");
+    $stmt->bind_param("ii", $visit, $id);
+    $stmt->execute();
+
     echo json_encode($row);
 } else {
     echo "no";

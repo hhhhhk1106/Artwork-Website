@@ -34,7 +34,7 @@ function getPageItems(nowPage,perPage,keyword,order) {
                 console.log(obj);
                 if(ret == "0") {
                     //window.location.href = "../html/error.html";
-                    // TODO: 找到0个结果
+                    // TOkDO: 找到0个结果
                     var totalinfo = document.getElementById("totalinfo");
                     totalinfo.innerHTML = "无符合条件的结果";
                 } else {
@@ -60,7 +60,7 @@ function getPageItems(nowPage,perPage,keyword,order) {
             },
         })
     } else {
-        // TODO: 关键词、排序
+        // TOkDO: 关键词、排序
     }    
 }
 
@@ -125,7 +125,7 @@ jump.onkeydown = function() {
     if (code == 13) {
         // console.log(jump.value);
         // console.log(Number.isInteger(parseInt(jump.value)));
-        // TODO: 范围
+        // TOkDO: 范围
         var jumpPage = parseInt(jump.value);
         if(Number.isInteger(jumpPage)) {
             emptyItems();
@@ -164,7 +164,7 @@ function loadItem(element) {
     var title = element.Title;
     var price = element.MSRP;
 
-    // TODO: 作者，描述
+    // TOkDO: 作者，描述
 
     var div = document.createElement("div");
     div.className = "result";
