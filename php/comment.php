@@ -7,31 +7,70 @@ if ($conn->connect_error) {
 }
 $conn->select_db("art");
 
-$id = $_GET['id'];
-// $myAPI = $_GET['myAPI'];
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $myAPI = $_GET['myAPI'];
+    // 加载评论
+    if($myAPI == "load") {
+        $results = array();
+        $stmt = $conn->prepare("SELECT * FROM comments WHERE PaintingID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-// 一级评论
-// if($myAPI == "hier1") {
-$results = array();
-$stmt = $conn->prepare("SELECT * FROM comments WHERE PaintingID = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        //$info = getPaintingInfo($row["PaintingID"],$conn);
-        $row["UserName"] = getUserName($row["UserID"],$conn);
-        $row["Replies"] = getReplies($row["CommentID"],$conn);
-        $results[] = $row;
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                //$info = getPaintingInfo($row["PaintingID"],$conn);
+                $row["UserName"] = getUserName($row["UserID"],$conn);
+                $row["Replies"] = getReplies($row["CommentID"],$conn);
+                $results[] = $row;
+            }
+            // $list["results"] = $results;
+            echo json_encode(($results));
+            //echo "here";
+        } else {
+            echo "no";
+        }
     }
-    // $list["results"] = $results;
-    echo json_encode(($results));
-    //echo "here";
-} else {
-    echo "no";
+
 }
-// }
+
+if(isset($_POST["myAPI"])) {
+    // 发布评论
+    if($_POST["myAPI"] == "comment") {
+        // echo $_POST["ReviewDate"];
+        $PaintingID = $_POST['PaintingID'];
+        $UserID = $_POST['UserID'];
+        $ReviewDate = $_POST['ReviewDate'];
+        $Comment = $_POST['Comment'];
+        $Hierarchy = $_POST['Hierarchy'];
+
+        $stmt = $conn->prepare("INSERT INTO comments (PaintingID,UserID,ReviewDate,Comment,Hierarchy) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("iissi",$PaintingID,$UserID,$ReviewDate,$Comment,$Hierarchy);
+        $stmt->execute();
+        echo "success";
+    }
+
+    // $results = array();
+    // $stmt = $conn->prepare("SELECT * FROM comments WHERE PaintingID = ?");
+    // $stmt->bind_param("i", $id);
+    // $stmt->execute();
+    // $result = $stmt->get_result();
+
+    // if ($result->num_rows > 0) {
+    //     while ($row = $result->fetch_assoc()) {
+    //         //$info = getPaintingInfo($row["PaintingID"],$conn);
+    //         $row["UserName"] = getUserName($row["UserID"],$conn);
+    //         $row["Replies"] = getReplies($row["CommentID"],$conn);
+    //         $results[] = $row;
+    //     }
+    //     // $list["results"] = $results;
+    //     echo json_encode(($results));
+    //     //echo "here";
+    // } else {
+    //     echo "no";
+    // }
+}
 
 // 获取二级评论
 function getReplies($CommentID,$conn) {

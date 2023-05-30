@@ -1,5 +1,25 @@
 var id = getUrlParam('id');
 console.log(id);
+Date.prototype.format = function(fmt) { 
+    var o = { 
+    "M+" : this.getMonth()+1,                 //月份 
+    "d+" : this.getDate(),                    //日 
+    "h+" : this.getHours(),                   //小时 
+    "m+" : this.getMinutes(),                 //分 
+    "s+" : this.getSeconds(),                 //秒 
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+    "S" : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+    for(var k in o) {
+    if(new RegExp("("+ k +")").test(fmt)){
+    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    }
+    }
+    return fmt; 
+}
 
 if(id === null) {
     // window.location.href = "../html/error.html";
@@ -10,7 +30,7 @@ if(id === null) {
         dataType : "text",
         data : {
             id : id,
-            // myAPI : "hier1",
+            myAPI : "load",
         },
         success : function(ret) {
             // console.log(ret);
@@ -103,6 +123,47 @@ function createComment(element) {
     div_comment.appendChild(div_commentbody);
     div_comment.appendChild(div_commentfooter);
     return div_comment;
+}
+
+var newcomment = document.getElementById('newcomment');
+newcomment.onclick = function() {
+    if(!userID) {
+        myAlert('','请登录后再发表评论',function(){});
+    } else {
+        var newcommenttext = document.getElementById('newcommenttext').value;
+        console.log(newcommenttext);
+        if(!newcommenttext) {
+            myAlert('','评论内容为空',function(){});
+        } else {
+            //插入评论
+            var myDate = new Date().format("yyyy-MM-dd hh:mm:ss");
+            $.ajax({
+                method : 'post',
+                url : "../php/comment.php",
+                dataType : "text",
+                data : {
+                    PaintingID : id,
+                    myAPI : "comment",
+                    UserID : userID,
+                    ReviewDate : myDate,
+                    Comment : newcommenttext,
+                    Hierarchy : 1,
+                },
+                success : function(ret) {
+                    console.log(ret);
+                    //未查询到该painting(id非数字或无对应数据)
+                    if(ret == "success") {
+                        //TOkDO:跳转
+                        displayAlert('success','评论发布成功！',1500);
+                        setTimeout(function(){window.location.reload();},1500);
+                        // window.location.reload();
+                    } else {
+
+                    }
+                },
+            })
+        }
+    }
 }
 
 //获取url中的参数
