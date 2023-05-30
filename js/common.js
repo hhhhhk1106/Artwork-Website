@@ -40,10 +40,11 @@ search.onclick = function() {
         console.log(ret);
         var serachtext = document.getElementById('serachtext').value;
 
-        window.location.href = "../html/search.html";
+        var href = "../html/search.html";
         if(serachtext) {
-            window.location.href = "../html/search.html?keyword="+serachtext;
+            href = "../html/search.html?keyword="+serachtext;
         }
+        window.location.href = href;
         //window.location.href = '../html/search.html';
         // if(ret == "no") {
         //     //TOkDO:跳转

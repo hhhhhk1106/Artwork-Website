@@ -165,7 +165,7 @@ function loadIssueItems(userID) {
                 })
 
                 var mod = document.getElementsByClassName('modify');
-                console.log(mod);
+                // console.log(mod);
                 // console.log(del[0].attributes.getNamedItem('painting').value);//paintingID
                 var arr = Array.from(mod);
                 console.log(arr);
@@ -183,9 +183,9 @@ function loadIssueItems(userID) {
 }
 
 function showIssueItem(element) {
-    console.log("here")
+    // console.log("here")
     var items = document.getElementById('issueitems');
-    var imagesrc = "../image/square-small/"+element.ImageFileName+".jpg";
+    var imagesrc = "../image/square-medium/"+element.ImageFileName+".jpg";
     var title = element.Title;
     var price = element.MSRP;
     var saled = (element.Saled==0)?"未售出":"已售出";
@@ -236,7 +236,7 @@ function loadPaidItems(userID) {
 function showPaidItem(element) {
     //console.log("here")
     var items = document.getElementById('paiditems');
-    var imagesrc = "../image/square-small/"+element.ImageFileName+".jpg";
+    var imagesrc = "../image/square-medium/"+element.ImageFileName+".jpg";
     var title = element.Title;
     var price = element.MSRP;
     var div_item1 = '<tbody name="';

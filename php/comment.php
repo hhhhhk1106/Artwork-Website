@@ -51,25 +51,38 @@ if(isset($_POST["myAPI"])) {
         echo "success";
     }
 
-    // $results = array();
-    // $stmt = $conn->prepare("SELECT * FROM comments WHERE PaintingID = ?");
-    // $stmt->bind_param("i", $id);
-    // $stmt->execute();
-    // $result = $stmt->get_result();
+    // 回复
+    if($_POST["myAPI"] == "reply") {
+        // echo $_POST["ReviewDate"];
+        $ReplyCommentID = $_POST['ReplyCommentID'];
+        $UserID = $_POST['UserID'];
+        $ReviewDate = $_POST['ReviewDate'];
+        $Comment = $_POST['Comment'];
+        $Hierarchy = $_POST['Hierarchy'];
 
-    // if ($result->num_rows > 0) {
-    //     while ($row = $result->fetch_assoc()) {
-    //         //$info = getPaintingInfo($row["PaintingID"],$conn);
-    //         $row["UserName"] = getUserName($row["UserID"],$conn);
-    //         $row["Replies"] = getReplies($row["CommentID"],$conn);
-    //         $results[] = $row;
-    //     }
-    //     // $list["results"] = $results;
-    //     echo json_encode(($results));
-    //     //echo "here";
-    // } else {
-    //     echo "no";
-    // }
+        $stmt = $conn->prepare("INSERT INTO comments (ReplyCommentID,UserID,ReviewDate,Comment,Hierarchy) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("iissi",$ReplyCommentID,$UserID,$ReviewDate,$Comment,$Hierarchy);
+        if(isset($_POST['ReplyUserID'])) {
+            $ReplyUserID = $_POST['ReplyUserID'];
+            $stmt = $conn->prepare("INSERT INTO comments (ReplyCommentID,UserID,ReviewDate,Comment,Hierarchy,ReplyUserID) VALUES (?,?,?,?,?,?)");
+            $stmt->bind_param("iissii",$ReplyCommentID,$UserID,$ReviewDate,$Comment,$Hierarchy,$ReplyUserID);
+        }
+        $stmt->execute();
+        echo "success";
+    }
+
+    // 删除
+    if($_POST["myAPI"] == "delete") {
+        // echo $_POST["ReviewDate"];
+        $UserID = $_POST['UserID'];
+        $CommentID = $_POST['CommentID'];
+
+        // $stmt2 = $conn->prepare("UPDATE shoppingcart SET `State` = 1 WHERE `id` = ?");
+        $stmt = $conn->prepare("UPDATE comments SET `State` = 1 WHERE CommentID = ? AND UserID = ?");
+        $stmt->bind_param("ii",$CommentID,$UserID);
+        $stmt->execute();
+        echo "success";
+    }
 }
 
 // 获取二级评论

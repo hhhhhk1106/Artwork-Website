@@ -76,7 +76,7 @@ if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
                 $stmt->bind_param("ii", $balance, $row["id"]);
                 $stmt->execute();
 
-                $stmt1 = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ? AND `State` = 0");
+                $stmt1 = $conn->prepare("SELECT * FROM shoppingcart,paintings WHERE shoppingcart.UserID = ? AND shoppingcart.`State` = 0 AND shoppingcart.`PaintingID` = paintings.`PaintingID` AND paintings.`Saled` = 0");
                 $stmt1->bind_param("i", $UserID);
                 $stmt1->execute();
                 $result1 = $stmt1->get_result();

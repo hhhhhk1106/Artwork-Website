@@ -30,7 +30,7 @@ if(id === null) {
 }
 
 var addShoppingCart = document.querySelectorAll('form')[1];
-console.log(addShoppingCart);
+// console.log(addShoppingCart);
 addShoppingCart.addEventListener('submit', function(event) {
     // prevent the default form submission behavior
     event.preventDefault();

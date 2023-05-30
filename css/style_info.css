@@ -164,6 +164,7 @@ a:hover {
 
 .main .items {
   margin-top: 20px;
+  margin-bottom: 50px;
   display: grid;
   /* grid-template-rows: repeat(3, 1fr); */
   grid-gap: 20px;
@@ -291,4 +292,9 @@ ul#userinfo input {
   color: rgba(255, 0, 0, 0.8);
   font-size: 12px;
   position: absolute;
+}
+
+td img {
+  width: 100px;
+  height: auto;
 }
