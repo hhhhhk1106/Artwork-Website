@@ -1,5 +1,12 @@
 document.write('<script src="../js/box.js"></script>');
 //TODO: document.write('<audio src="../music/宇多田ヒカル-One Last Kiss.mp3" id="music" autoplay="autoplay" controls="controls" preload="auto"></audio>');
+var body = document.getElementsByTagName('body');
+body[0].style.backgroundImage = 'url("../image/10.png")';
+body[0].style.backgroundSize = "cover";
+body[0].style.backgroundAttachment = "fixed";
+body[0].style.backgroundPosition = "center";
+// var content = document.getElementsByClassName('content');
+// content[0].style.backgroundColor = "white";
 
 var username = sessionStorage.getItem("username");
 var userID = sessionStorage.getItem("userID");
