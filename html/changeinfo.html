@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>个人信息更新</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style_register.css">
+  </head>
+  <body>
+    <div class="container">
+      <form action="../php/register.php" method="post">
+        <h1>个人信息更新</h1>
+        <div class="form-control">
+          <label for="username" class="must">用户名</label>
+          <input type="text" id="username" name="username" required>
+          <div id="usernameError" class="error"></div>
+        </div>
+        <div class="form-control">
+          <label for="password" class="must">密码</label>
+          <span id="password-strength">密码强度：</span>
+          <span id="weak" class="strength">弱</span>
+          <span id="medium" class="strength">中</span>
+          <span id="strong" class="strength">强</span>
+          <input type="password" id="password" name="password">
+          <div id="passwordError" class="error"></div>
+        </div>
+        <div class="form-control">
+          <label for="password" class="must">确认密码</label>
+          <input type="password" id="confirm-password" name="confirm-password">
+          <div id="confirm-passwordError" class="error"></div>
+        </div>
+        <div class="form-control">
+          <label for="email">邮箱</label>
+          <input type="email" id="email" name="email">
+          <div id="emailError" class="error"></div>
+        </div>
+        <div class="form-control">
+          <label for="phone">手机号</label>
+          <input type="text" id="phone" name="phone">
+          <div id="phoneError" class="error"></div>
+        </div>
+        <div class="form-control">
+          <label for="address">地址</label>
+          <input type="text" id="address" name="address">
+        </div>
+        <div class="form-control">
+          <label for="sex">性别</label>
+          <select type="text" id="sex" name="sex">
+            <option disabled selected>请选择</option>
+            <option>男</option>
+            <option>女</option>
+            <option>保密</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="birthday">出生日期</label>
+          <input type="date" id="birthday" name="birthday">
+        </div>
+        <div class="form-control">
+          <label for="nationality">国籍</label>
+          <select type="text" id="nationality" name="nationality">
+            <option disabled selected>请选择</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="captcha">验证码</label>
+          <div class="line">
+            <input type="text" id="captcha" name="captcha" required style="display: inline;">
+            <img src="../php/code.php" style="display: inline;"/>
+          </div>
+        </div>
+
+        <button type="submit">注册</button>
+        <div class="form-links">
+          <a href="../html/login.html">已有账号，直接登录</a>
+        </div>
+      </form>
+    </div>
+    <footer>
+      <p>&copy; 2023 cHui3. All rights reserved.</p>
+    </footer>
+  </body>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="../js/box.js"></script>
+  <script src="../js/register.js"></script>
+</html>

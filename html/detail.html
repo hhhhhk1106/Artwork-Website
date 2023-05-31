@@ -29,10 +29,18 @@
 	<main>
 		<div class="content">
 			<section class="product-image">
-				<img alt="艺术品图片" id="product-image">
+				<button id="ret">返回</button>
+				<div class="box">
+					<div class="small">
+						<img id="product-image" alt="small"/>
+						<div class="mask"></div>
+					</div>
+					<div class="big">
+						<img id="product-image2" alt="big"/>
+					</div>
+				</div>
+				<!-- <img alt="艺术品图片" id="product-image"> -->
 				<form action="#">
-					<!-- <label for="quantity">数量：</label>
-					<input type="number" name="quantity" id="quantity" min="1" max="10" value="1"> -->
 					<button type="submit" id="addCart">加入购物车</button>
 				</form>
 			</section>
@@ -124,4 +132,5 @@
 <script src="../js/common.js"></script>
 <script src="../js/detail.js"></script>
 <script src="../js/comment.js"></script>
+<script src="../js/tools.js"></script>
 </html>

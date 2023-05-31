@@ -29,6 +29,11 @@ if(id === null) {
     })
 }
 
+var retlast = document.getElementById('ret');
+retlast.onclick = function() {
+    window.history.back();
+}
+
 var addShoppingCart = document.querySelectorAll('form')[1];
 // console.log(addShoppingCart);
 addShoppingCart.addEventListener('submit', function(event) {
@@ -101,6 +106,9 @@ function showInfo(obj) {
     var productImage = document.getElementById('product-image');
     productImage.src = obj.ImageLink;
     productImage.src = "../image/large/"+obj.ImageFileName+".jpg";
+    var productImage2 = document.getElementById('product-image2');
+    productImage2.src = obj.ImageLink;
+    productImage2.src = "../image/large/"+obj.ImageFileName+".jpg";
     //var artist = document.getElementById('artist').innerHTML;
     document.getElementById('title').innerHTML = obj.Title;
     document.getElementById('artist').innerHTML = obj.ArtistName;

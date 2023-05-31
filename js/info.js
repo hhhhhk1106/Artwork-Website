@@ -59,6 +59,11 @@ if(userID === null) {
         }
     }
 
+    var reinfo = document.getElementById('reinfo');
+    reinfo.onclick = function() {
+        console.log("re")
+    }
+
 }
 
 function showUserInfo(obj) {
