@@ -380,39 +380,22 @@ function getPaintingInfo(id) {
                 newData["MSRP"] = priceField.value;
                 newData["Description"] = descriptionField.value;
                 var newImg = document.getElementById('image');
-                //if()
+
                 console.log(newImg);
                 console.log(newImg.files[0]);
                 if(newImg.files[0]) {
                     newData["ImageFileName"] = addImage();
                 }
-                //newData["ImageFileName"] = addImage();
 
                 $.ajax({
                     method : 'post',
                     url : "../php/issue.php",
                     dataType : "text",
-                    //data : {
-                        // myAPI : "update",
-                        // PaintingID : id,
-                        // Title : titleField.value,
-                        // LastName : artistField.value,
-                        // YearOfWork: yearField.value,
-                        // GenreID : getGenreID(genreField.value),
-                        // Width : widthField.value,
-                        // Height : heightField.value,
-                        // MSRP : priceField.value,
-                        // Description : descriptionField.value,
-                        //ImageFileName : addImage(),
 
-                    //},
                     data : newData,
                     success : function(ret) {
                         //obj = JSON.parse(ret);
                         console.log(ret);            
-                        // if(ret == "fail") {
-                        // myAlert('','发布失败，请稍后重试',function(){});
-                        // } else 
                         if(ret == "success") {
                             displayAlert('success','修改成功！',1500);
                             //TOkDO: 跳转个人中心
@@ -422,8 +405,6 @@ function getPaintingInfo(id) {
                         }
                     }
                 })
-        
-        
             });
             
         },

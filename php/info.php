@@ -68,6 +68,19 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
             echo "no";
         }          
     }
+
+    if($myAPI == "update") {
+        $stmt = $conn->prepare("SELECT * FROM customers WHERE CustomerID = ?");
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1) {
+            $row = $result->fetch_array();
+            echo json_encode($row);
+        } else {
+            echo "no";
+        }          
+    }
 }
 
 if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
@@ -91,7 +104,56 @@ if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
             echo "success";
         } else {
             echo "no";
-        }  
+        }
+        return;
+    }
+
+    if($myAPI == "update") {
+        if(isset($_POST['Email'])) {
+            $Email = $_POST['Email'];
+            $stmt = $conn->prepare("UPDATE customers SET Email = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Email, $userID);
+            $stmt->execute();
+        }
+        if(isset($_POST['Phone'])) {
+            $Phone = $_POST['Phone'];
+            $stmt = $conn->prepare("UPDATE customers SET Phone = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Phone, $userID);
+            $stmt->execute();
+        }
+        if(isset($_POST['Address'])) {
+            $Address = $_POST['Address'];
+            $stmt = $conn->prepare("UPDATE customers SET Address = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Address, $userID);
+            $stmt->execute();
+        }
+
+        if(isset($_POST['Birthday'])) {
+            $Birthday = $_POST['Birthday'];
+            // echo $_POST['Birthday'];
+            $stmt = $conn->prepare("UPDATE customers SET Birthday = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Birthday, $userID);
+            $stmt->execute();
+        } else {
+            $stmt = $conn->prepare("UPDATE customers SET Birthday = null WHERE `CustomerID` = ?");
+            $stmt->bind_param("i", $userID);
+            $stmt->execute();
+        }
+        if(isset($_POST['Sex'])) {
+            $Sex = $_POST['Sex'];
+            $stmt = $conn->prepare("UPDATE customers SET Sex = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Sex, $userID);
+            $stmt->execute();
+        }
+        if(isset($_POST['Country'])) {
+            $Country = $_POST['Country'];
+            $stmt = $conn->prepare("UPDATE customers SET Country = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $Country, $userID);
+            $stmt->execute();
+        }
+
+        echo "success";
+        return;      
     }
 
 }

@@ -43,6 +43,10 @@ password.oninput = function(){
   } else {
     passwordError.style.display = 'none';
     var level = passwordStrengthLevel(passwordField.value);
+    if(level == 1) {
+      passwordError.textContent = "密码强度低，可使用字母数字下划线组合";
+      passwordError.style.display = 'block';
+    }
     changeStrengthCSS(level);
   }
   //TOkDO: 密码强弱提示

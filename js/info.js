@@ -61,9 +61,205 @@ if(userID === null) {
 
     var reinfo = document.getElementById('reinfo');
     reinfo.onclick = function() {
-        console.log("re")
+        // TODO:
+        // console.log("re");
+        var items = document.getElementsByClassName('items')[0];
+        items.innerHTML = "";
+        showreInfo();
     }
 
+}
+
+function showreInfo() {
+    // TODO: 展示表单，填充信息，保存按钮
+    var items = document.getElementsByClassName('items')[0];
+    var form = document.createElement('form');
+    // var div_email = document.createElement('div');
+    // div_email.className = "form-control";
+    // var label_email = document.createElement('label');
+    // label_email.innerHTML = "邮箱";
+    // div_email.appendChild(label_email);
+    // var input_email = document.createElement('input');
+    // input_email.type = "email";
+    // input_email.id = "email";
+    // input_email.name = "email";
+    // div_email.appendChild(input_email);
+    // var div_emailErr = document.createElement('div');
+    // div_emailErr.id = "emailError";
+    // div_emailErr.className = "error";
+    // div_email.appendChild(div_emailErr);
+
+    // form.appendChild(div_email);
+    var email = '<div class="form-control"><label for="email">邮箱</label><input type="email" id="email" name="email"><div id="emailError" class="error"></div></div>';
+    form.innerHTML += email;
+    var phone = '<div class="form-control"><label for="phone">手机号</label><input type="text" id="phone" name="phone"><div id="phoneError" class="error"></div></div>';
+    form.innerHTML += phone;
+    var address = '<div class="form-control"><label for="address">地址</label><input type="text" id="address" name="address"></div>';
+    form.innerHTML += address;
+    var sex = '<div class="form-control"><label for="sex">性别</label><select type="text" id="sex" name="sex"><option disabled selected>请选择</option><option>男</option><option>女</option><option>保密</option></select></div>';
+    form.innerHTML += sex;
+    var birthday = '<div class="form-control"><label for="birthday">出生日期</label><input type="date" id="birthday" name="birthday"></div>';
+    form.innerHTML += birthday;
+    var nationality = '<div class="form-control"><label for="nationality">国籍</label><select type="text" id="nationality" name="nationality"><option disabled selected>请选择</option></select></div>';
+    form.innerHTML += nationality;
+
+    var submit = '<button id="saveinfo">保存</button>';
+    form.innerHTML += submit;
+    items.appendChild(form);
+
+    // 填充表单原有信息
+    getOldInfo(userID);
+
+}
+
+function getOldInfo(userID) {
+    var flag = true;
+    var select_nationality = document.getElementById("nationality");
+    select_nationality.onfocus = function(){
+      if(flag) {
+        for(var x=0;x<nationalities.length;x++){
+          var opt=document.createElement("option");
+          opt.innerHTML=nationalities[x];
+          // console.log(nationalities[x]);
+          select_nationality.appendChild(opt);
+        }
+        flag = false;
+      }
+    }
+
+    $.ajax({
+        method : 'get',
+        url : "../php/info.php",
+        dataType : "text",
+        data : {
+            UserID : userID,
+            myAPI : "update",
+        },
+        success : function(ret) {
+            // console.log(ret);
+            var obj = JSON.parse(ret);
+            console.log(obj);
+
+            document.getElementById('email').value = obj.Email;
+            document.getElementById('phone').value = obj.Phone;
+            document.getElementById('address').value = obj.Address;
+            document.getElementById('sex').value = obj.Sex;
+            document.getElementById('birthday').value = obj.Birthday;
+            // document.getElementById('nationality').value = obj.Country;
+            var opt=document.createElement("option");
+            opt.innerHTML=obj.Country;
+            document.getElementById('nationality').appendChild(opt);
+            opt.selected = true;
+
+            var email = document.getElementById('email');
+            var emailField = document.querySelector('#email');
+            email.oninput = function(){
+              var emailError = document.getElementById('emailError');
+              if (emailField.value.length == 0) {
+                emailError.style.display = 'none';
+              } else if (!isValidEmail(emailField.value)) {
+                emailError.textContent = "请输入合法的邮箱";
+                emailError.style.display = 'block';
+              } else {
+                emailError.style.display = 'none';
+              }
+            }
+
+            var phone = document.getElementById('phone');
+            var phoneField = document.querySelector('#phone');
+            phone.oninput = function(){
+              var phoneError = document.getElementById('phoneError');
+              if (phoneField.value.length == 0) {
+                phoneError.style.display = 'none';
+              } else if (!isValidPhone(phoneField.value)) {
+                phoneError.textContent = "请输入合法的手机号";
+                phoneError.style.display = 'block';
+              } else {
+                phoneError.style.display = 'none';
+              }
+            }
+
+            var addressField = document.querySelector('#address');
+            var birthdayField = document.querySelector('#birthday');
+            var nationalityField = document.querySelector('#nationality');
+            var sexField = document.querySelector('#sex');            
+
+            // 保存
+            var saveinfo = document.getElementById('saveinfo');
+            saveinfo.onclick = function() {
+                event.preventDefault();
+                console.log("post new")
+                
+                //TODO: check邮箱，手机号
+                if (emailField.value!="" && !isValidEmail(emailField.value)) {
+                    myAlert('','请输入合法的邮箱！',function(){});
+                    return;
+                }
+            
+                if (phoneField.value!="" && !isValidPhone(phoneField.value)) {
+                    myAlert('','请输入合法的手机号！',function(){});
+                    return;
+                }
+            
+                var newData = {};
+                newData["myAPI"] = "update";
+                newData["UserID"] = userID;
+
+                newData["Email"] = emailField.value;
+                newData["Phone"] = phoneField.value;
+                newData["Address"] = addressField.value;
+                // newData["Birthday"] = birthdayField.value;
+                if(birthdayField.value!="")newData["Birthday"] = birthdayField.value;
+                newData["Sex"] = sexField.value;
+                newData["Country"] = nationalityField.value;
+
+                console.log(newData);
+
+                $.ajax({
+                    method : 'post',
+                    url : "../php/info.php",
+                    dataType : "text",
+                    data : newData,
+                    success : function(ret) {
+                        //obj = JSON.parse(ret);
+                        console.log(ret);            
+                        // if(ret == "fail") {
+                        // myAlert('','发布失败，请稍后重试',function(){});
+                        // } else 
+                        if(ret == "success") {
+                            displayAlert('success','修改成功！',1500);
+                            //TOkDO: 跳转个人中心
+                            // setTimeout(function(){window.location.href='../html/info.html';},1500);
+                        } else {
+                            
+                        }
+                    }
+                })
+        
+        
+            };
+            
+        },
+    })
+}
+
+var nationalities = [
+    "中国",
+    "美国",
+    "加拿大",
+    "英国",
+    "法国"
+];
+
+
+function isValidEmail(email) {
+    var regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    return regex.test(email);
+}
+
+function isValidPhone(phone) {
+    var regex = /^1[3578]\d{9}$/;
+    return regex.test(phone);
 }
 
 function showUserInfo(obj) {
@@ -175,7 +371,7 @@ function loadIssueItems(userID) {
                 var arr = Array.from(mod);
                 console.log(arr);
                 arr.forEach(element => {
-                    // 修改TODO:
+                    // 修改TOkDO:
                     element.onclick = function() {
                         console.log("click");
                         var paintingID = element.attributes.getNamedItem('painting').value;

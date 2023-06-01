@@ -271,7 +271,7 @@ ul#userinfo {
   word-break:break-all;
 }
 
-button#recharge, button#reinfo {
+button#recharge, button#reinfo, button#relogin {
   padding: 5px 10px;
   background-color: royalblue;
   color: #fff;
@@ -281,7 +281,7 @@ button#recharge, button#reinfo {
   font-size: 14px;
 }
 
-button#reinfo {
+button#relogin {
   margin-left: 10px;
 }
 
@@ -311,4 +311,60 @@ td img {
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
+}
+
+.items form {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+
+.form-control {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.items input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.items button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font: bold;
+  font-size: 16px;
+}
+
+.items button:hover {
+  background-color: royalblue;
+}
+
+.form-control .error {
+  color: rgba(255, 0, 0, 0.8);
+  font-size: 12px;
+  position: absolute;
 }
