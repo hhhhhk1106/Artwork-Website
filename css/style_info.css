@@ -271,8 +271,8 @@ ul#userinfo {
   word-break:break-all;
 }
 
-button#recharge, button#reinfo, button#relogin {
-  padding: 5px 10px;
+button#recharge, button#reinfo, button#reusername, button#repassword {
+  padding: 5px 5px;
   background-color: royalblue;
   color: #fff;
   border: none;
@@ -281,15 +281,17 @@ button#recharge, button#reinfo, button#relogin {
   font-size: 14px;
 }
 
-button#relogin {
+button#reusername, button#repassword {
   margin-left: 10px;
 }
 
-ul#userinfo input {
+.sidebar input {
   padding: 5px;
   border: thin;
   border-radius: 3px;
   width: 60%;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .error {
@@ -367,4 +369,37 @@ select {
   color: rgba(255, 0, 0, 0.8);
   font-size: 12px;
   position: absolute;
+}
+
+.weak {
+  background: rgba(255, 0, 0, 0.8);
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.medium {
+  background: #FF9900;
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.strong {
+  background: #6de125;
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
+}
+.strength {
+  display: inline-block;
+  width: 70px;
+  background: #ddd;
+  text-align: center;
+  margin: 4px 2px;
+  font-size: 12px;
 }

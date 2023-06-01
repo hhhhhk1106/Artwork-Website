@@ -1,5 +1,5 @@
 document.write('<script src="../js/box.js"></script>');
-//TODO: document.write('<audio src="../music/宇多田ヒカル-One Last Kiss.mp3" id="music" autoplay="autoplay" controls="controls" preload="auto"></audio>');
+document.write('<audio src="../music/宇多田ヒカル-One Last Kiss2.mp3" id="music" autoplay="autoplay" controls="controls" preload="auto"></audio>');
 var body = document.getElementsByTagName('body');
 body[0].style.backgroundImage = 'url("../image/10.png")';
 body[0].style.backgroundSize = "cover";

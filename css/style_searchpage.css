@@ -271,14 +271,14 @@ td a {
   display: inline-block;
   height: 32px;
   line-height: 32px;
-  color: #99a2aa;
+  color: #666;
 }
 
 .be-pager-options-elevator {
   display: inline-block;
   height: 32px;
   line-height: 32px;
-  color: #99a2aa;
+  color: #666;
   text-align: start;
 }
 

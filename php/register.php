@@ -37,7 +37,9 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
     $address = isset($_POST['address'])?$_POST['address']:NULL;
     $birthday = isset($_POST['birthday'])?$_POST['birthday']:NULL;
     $sex = isset($_POST['sex'])?$_POST['sex']:NULL;
+    if($sex=="请选择") $sex = NULL;
     $nationality = isset($_POST['nationality'])?$_POST['nationality']:NULL;
+    if($nationality=="请选择") $nationality = NULL;
     
     // if($code != $_SESSION['authcode']) {
     //     echo "<script>alert('验证码错误！重新填写');window.location.href='zhuce.html'</script>";
@@ -64,7 +66,7 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         // echo "<script>myAlert('','用户名已存在',function(){})</script>";
         echo "already";
     } else {
-        //echo $birthday;   //TODO: date-joined
+        //echo $birthday;   //TOxDO: date-joined
         $sql= "INSERT INTO customerlogon (UserName, Pass, Salt, State)
         VALUES ('$username','$password','$salt', 1)";
         //插入数据库
@@ -78,8 +80,14 @@ if (isset($_POST['username'])&&isset($_POST['password'])){
         $id = $row["max(CustomerID)"];
         //echo $id;
         //var_dump($id);
-        $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex, Birthday)
-        VALUES ('$id','$address','$nationality','$phone','$email','$sex','$birthday')";
+        if(isset($_POST['birthday'])&&$_POST['birthday']!="") {
+            $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex, Birthday)
+            VALUES ('$id','$address','$nationality','$phone','$email','$sex','$birthday')";
+        } else {
+            $sql= "INSERT INTO customers (CustomerID, Address, Country, Phone, Email, Sex)
+            VALUES ('$id','$address','$nationality','$phone','$email','$sex')";
+        }
+
         $sql2= "INSERT INTO account (UserID) VALUES ('$id')";
         if($conn->query($sql) === false || $conn->query($sql2) === false){
             // echo "<script>alert('数据插入失败，请稍后再试')</script>";

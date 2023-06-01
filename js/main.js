@@ -166,11 +166,13 @@ function loadItem(element) {
     div.name = element.PaintingID;
     var a = document.createElement("a");
     a.href = "../html/detail.html?id="+element.PaintingID;
+    a.ariaLabel = "点击查看关于"+title+"的更多信息";
     //var tr = document.createElement("tr");
     //var td_img = document.createElement("td");
     var img_node = document.createElement("img");
     img_node.src = imagesrc;
     img_node.className = "item-image";
+    img_node.alt = title;
     //td_img.appendChild(img_node);
     a.appendChild(img_node);
     div.appendChild(a);

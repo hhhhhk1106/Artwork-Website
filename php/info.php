@@ -48,7 +48,7 @@ if(isset($_GET["UserID"])&&isset($_GET["myAPI"])) {
         }          
     }
 
-    // TODO: 已下单
+    // TOkDO: 已下单
     if($myAPI == "paidInfo") {
         $stmt = $conn->prepare("SELECT * FROM shoppingcart WHERE UserID = ? AND `State` = 1");
         $stmt->bind_param("i", $userID);
@@ -153,6 +153,65 @@ if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
         }
 
         echo "success";
+        return;      
+    }
+
+    if($myAPI == "newusername") {
+        $UserName = $_POST['UserName'];
+
+        $stmt = $conn->prepare("SELECT * FROM customerlogon WHERE UserName = ?");
+        $stmt->bind_param("s", $UserName);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1){
+            // 用户名已存在
+            echo "already";
+        } else {
+            $stmt = $conn->prepare("UPDATE customerlogon SET UserName = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $UserName, $userID);
+            $stmt->execute();
+            echo "success";            
+        }
+        return;      
+    }
+
+    if($myAPI == "checkpwd") {
+        $Pass = $_POST['Pass'];
+
+        $stmt = $conn->prepare("SELECT * FROM customerlogon WHERE CustomerID = ?");
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1){
+            $row = $result->fetch_assoc();
+            $salt = $row['Salt'];
+            $password = hash("sha256", $Pass . $salt);
+            if($password === $row['Pass']) {               
+                echo "yes";
+            } else {
+                echo "no";
+            }
+        }
+        return;      
+    }
+
+    if($myAPI == "savepwd") {
+        $Pass = $_POST['Pass'];
+
+        $stmt = $conn->prepare("SELECT * FROM customerlogon WHERE CustomerID = ?");
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1){
+            $row = $result->fetch_assoc();
+            $salt = $row['Salt'];
+            $password = hash("sha256", $Pass . $salt);
+
+            $stmt = $conn->prepare("UPDATE customerlogon SET Pass = ? WHERE `CustomerID` = ?");
+            $stmt->bind_param("si", $password, $userID);
+            $stmt->execute();
+            echo "success";  
+        }
         return;      
     }
 

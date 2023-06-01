@@ -44,12 +44,6 @@ if(isset($_POST["UserID"])&&isset($_POST["PaintingID"])&&isset($_POST["myAPI"]))
         $result = $stmt->get_result();
         // echo $result;
 
-        // if($result->num_rows > 0) {
-        //     echo "already";
-        // } else {
-        //     // 无该条购物车记录
-        //     // echo "success";
-        // }
     }
 }
 
@@ -59,7 +53,7 @@ if(isset($_POST["UserID"])&&isset($_POST["myAPI"])) {
 
     // 支付
     if($myAPI == "pay") {
-        // TODO: 之后发布写完：查询到的painting有发布者，则增加对方账户余额
+        // TOkDO: 之后发布写完：查询到的painting有发布者，则增加对方账户余额
         $total = $_POST["Total"];
         // 查询余额
         $sql = "SELECT * FROM account WHERE UserID = $UserID";

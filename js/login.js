@@ -4,15 +4,22 @@ var passwordField = document.querySelector('#password');
 var captchaField = document.querySelector('#captcha');
 
 
-
+var issubmit = true;
 registrationForm.addEventListener('submit', function(event) {
     // prevent the default form submission behavior
     event.preventDefault();
-    ulogin();
-  
+	if(issubmit) {
+		issubmit = false;
+		setTimeout(function() {
+		  issubmit = true;
+		}, 3000);
+    	ulogin();
+	} else {
+		myAlert('','点击过于频繁，请稍后再试',function(){});
+	}
     // if all input fields are valid, redirect to the login page
     //window.location.href = 'login.html';
-	console.log("bb");
+	// console.log("bb");
     // this.submit();
   });
 

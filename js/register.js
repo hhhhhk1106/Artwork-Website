@@ -18,7 +18,7 @@ username.oninput = function(){
     usernameError.textContent = "请输入用户名";
     usernameError.style.display = 'block';
   } else if(!isValidUsername(usernameField.value)) {
-    usernameError.textContent = "用户名不合法,只能包含字母数组下划线";
+    usernameError.textContent = "用户名不合法,只能包含字母数字下划线";
     usernameError.style.display = 'block';
   } else {
     usernameError.style.display = 'none';
@@ -38,7 +38,7 @@ password.oninput = function(){
     passwordError.textContent = "密码不应超过30位";
     passwordError.style.display = 'block';
   } else if(!isValidPassword(passwordField.value)) {
-    passwordError.textContent = "密码中含有非法字符 * ~ ` # $ % & \\ \' \" ; ? $";
+    passwordError.textContent = "密码中含有非法字符 * ~ ` # $ % & \\ \' \" ; ? 空格";
     passwordError.style.display = 'block';
   } else {
     passwordError.style.display = 'none';
@@ -93,9 +93,16 @@ phone.oninput = function(){
 // myAlert('','请输入合法的用户名！',null);
 // myConfirm('','请输入合法的用户名！',null);
 // 提交时验证：alert
+var issubmit = true;
 registrationForm.addEventListener('submit', function(event) {
   // prevent the default form submission behavior
   event.preventDefault();
+
+  if(issubmit) {
+    issubmit = false;
+    setTimeout(function() {
+      issubmit = true;
+    }, 3000);
 
   // validate the input fields
   if (!isValidUsername(usernameField.value)) {
@@ -162,6 +169,11 @@ registrationForm.addEventListener('submit', function(event) {
       // line[0].style.display = 'none';
     }
   })
+
+  } else {
+		myAlert('','点击过于频繁，请稍后再试',function(){});
+	}
+
 });
 
 // function to validate the username
@@ -183,7 +195,7 @@ function isValidEmail(email) {
 function isValidPassword(password) {
   // check if the password is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number
   //var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-  var banned = /^[a-zA-Z0-9_-]+[^*~`#$%&\\'";?$\x22]+$/;
+  var banned = /^[a-zA-Z0-9_-]+[^ *~`#$%&\\'";?$\x22]+$/;
   return banned.test(password);
 }
 
@@ -248,12 +260,32 @@ nationality.onchange = function() {
 
 // 定义国籍选项的数据
 var nationalities = [
-    "中国",
-    "美国",
-    "加拿大",
-    "英国",
-    "法国"
-    // TODO: 添加更多国籍...//有问题，会重复添加
+  "阿根廷",
+  "巴基斯坦",
+  "巴西",
+  "波兰",
+  "丹麦",
+  "德国",
+  "俄罗斯",
+  "埃及",
+  "法国",
+  "菲律宾",
+  "哈萨克斯坦",
+  "韩国",
+  "荷兰",
+  "美国",
+  "日本",
+  "瑞士",
+  "沙特阿拉伯",
+  "乌克兰",
+  "希腊",
+  "新加坡",
+  "西班牙",
+  "意大利",
+  "印度",
+  "英国",
+  "智利",
+  "中国",
 ];
 var language = "zh-CN"; // 设置语言，可以根据需要修改
 var flag = true;

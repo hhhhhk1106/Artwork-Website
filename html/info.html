@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <title>个人中心</title>
@@ -32,8 +32,9 @@
       <h2>用户信息</h2>
         <div class="line">
           
-          <button id="reinfo">修改个人信息</button>
-          <button id="relogin">修改登录信息</button>
+          <button id="reinfo">修改信息</button>
+          <button id="reusername">修改用户名</button>
+          <button id="repassword">修改密码</button>
         </div>
         <ul id="userinfo">
             <li name="info"><span>用户名</span><br></li>
@@ -43,20 +44,13 @@
             <li name="info"><span>手机号</span><br></li>
             <li name="info"><span>邮箱</span><br></li>
             <li name="info"><span>性别</span><br></li>
-            <li name="info"><span>生日</span><br></li>
+            <li name="info" id="birthday"><span>生日</span><br></li>
             <li name="info" id="balance"><span>账户余额</span><br></li>
-            <input type="text" id="money">
-            <button id="recharge">充值</button>
-            <div id="rechargeError" class="error"></div>
         </ul>
-        <!-- <h2>最近浏览</h2>
-        <ul>
-            <li><a href="#">塞尔达</a></li>
-            <li><a href="#">p5r</a></li>
-            <li><a href="#">斯普拉通</a></li>
-            <li><a href="#">ai绘画作品</a></li>
-            <li><a href="#">电锯人</a></li>
-        </ul> -->
+        <input type="text" id="money" aria-label="recharge">
+        <button id="recharge">充值</button>
+        <div id="rechargeError" class="error"></div>
+
     </div>
     
     <div class="main">

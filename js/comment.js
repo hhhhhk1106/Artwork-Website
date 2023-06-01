@@ -54,7 +54,7 @@ if(id === null) {
 }
 
 
-// TODO: 由PaintingID查询一级评论  用户名 时间
+// TODkO: 由PaintingID查询一级评论  用户名 时间
 // 由一级评论查询二级评论，评论中评论展示回复用户
 // 点赞数，本人点赞样式
 function showComment(element) {

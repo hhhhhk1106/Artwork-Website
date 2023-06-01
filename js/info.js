@@ -61,35 +61,32 @@ if(userID === null) {
 
     var reinfo = document.getElementById('reinfo');
     reinfo.onclick = function() {
-        // TODO:
-        // console.log("re");
         var items = document.getElementsByClassName('items')[0];
         items.innerHTML = "";
         showreInfo();
     }
 
+    var reusername = document.getElementById('reusername');
+    reusername.onclick = function() {
+        var items = document.getElementsByClassName('items')[0];
+        items.innerHTML = "";
+        changeusrnm();
+    }
+
+    var repassword = document.getElementById('repassword');
+    repassword.onclick = function() {
+        var items = document.getElementsByClassName('items')[0];
+        items.innerHTML = "";
+        changepswd();
+    }
+
 }
 
 function showreInfo() {
-    // TODO: 展示表单，填充信息，保存按钮
+    // TOkDO: 展示表单，填充信息，保存按钮
     var items = document.getElementsByClassName('items')[0];
     var form = document.createElement('form');
-    // var div_email = document.createElement('div');
-    // div_email.className = "form-control";
-    // var label_email = document.createElement('label');
-    // label_email.innerHTML = "邮箱";
-    // div_email.appendChild(label_email);
-    // var input_email = document.createElement('input');
-    // input_email.type = "email";
-    // input_email.id = "email";
-    // input_email.name = "email";
-    // div_email.appendChild(input_email);
-    // var div_emailErr = document.createElement('div');
-    // div_emailErr.id = "emailError";
-    // div_emailErr.className = "error";
-    // div_email.appendChild(div_emailErr);
 
-    // form.appendChild(div_email);
     var email = '<div class="form-control"><label for="email">邮箱</label><input type="email" id="email" name="email"><div id="emailError" class="error"></div></div>';
     form.innerHTML += email;
     var phone = '<div class="form-control"><label for="phone">手机号</label><input type="text" id="phone" name="phone"><div id="phoneError" class="error"></div></div>';
@@ -190,7 +187,7 @@ function getOldInfo(userID) {
                 event.preventDefault();
                 console.log("post new")
                 
-                //TODO: check邮箱，手机号
+                //TOkDO: check邮箱，手机号
                 if (emailField.value!="" && !isValidEmail(emailField.value)) {
                     myAlert('','请输入合法的邮箱！',function(){});
                     return;
@@ -223,13 +220,10 @@ function getOldInfo(userID) {
                     success : function(ret) {
                         //obj = JSON.parse(ret);
                         console.log(ret);            
-                        // if(ret == "fail") {
-                        // myAlert('','发布失败，请稍后重试',function(){});
-                        // } else 
                         if(ret == "success") {
                             displayAlert('success','修改成功！',1500);
                             //TOkDO: 跳转个人中心
-                            // setTimeout(function(){window.location.href='../html/info.html';},1500);
+                            setTimeout(function(){window.location.href='../html/info.html';},1500);
                         } else {
                             
                         }
@@ -243,14 +237,294 @@ function getOldInfo(userID) {
     })
 }
 
+function changeusrnm() {
+    var items = document.getElementsByClassName('items')[0];
+    var form = document.createElement('form');
+
+    var div_username = '<div class="form-control"><label for="username" class="must">用户名</label><input type="text" id="username" name="username" required><div id="usernameError" class="error"></div></div>';
+    form.innerHTML += div_username;
+
+    var submit = '<button id="saveinfo">保存</button>';
+    form.innerHTML += submit;
+    items.appendChild(form);
+
+    // 填充表单原有信息
+    document.getElementById('username').value = sessionStorage.getItem("username");
+
+    var username = document.getElementById('username');
+    var usernameField = document.querySelector('#username');
+    username.oninput = function(){
+        var usernameError = document.getElementById('usernameError');
+        if (usernameField.value.length == 0) {
+            usernameError.textContent = "请输入用户名";
+            usernameError.style.display = 'block';
+        } else if(!isValidUsername(usernameField.value)) {
+            usernameError.textContent = "用户名不合法,只能包含字母数字下划线";
+            usernameError.style.display = 'block';
+        } else {
+            usernameError.style.display = 'none';
+        }
+    }        
+
+    // 保存
+    var saveinfo = document.getElementById('saveinfo');
+    saveinfo.onclick = function() {
+        event.preventDefault();
+        console.log("post new")
+        
+        if (!isValidUsername(usernameField.value)) {
+            myAlert('','请输入合法的用户名！',function(){});
+            return;
+        }
+
+        $.ajax({
+            method : 'post',
+            url : "../php/info.php",
+            dataType : "text",
+            data : {
+                myAPI : "newusername",
+                UserID : userID,
+                UserName : usernameField.value,
+            },
+            success : function(ret) {
+                //obj = JSON.parse(ret);
+                console.log(ret);   
+                if(ret == "already") {
+                    myAlert('','用户名已存在',function(){});
+                } else if(ret == "success") {
+                    displayAlert('success','修改成功！',1500);
+                    sessionStorage.setItem("username",usernameField.value);
+                    setTimeout(function(){window.location.href='../html/info.html';},1500);
+                }
+            }
+        })
+    }
+}
+
+function changepswd() {
+    var items = document.getElementsByClassName('items')[0];
+    var form = document.createElement('form');
+    
+    // 输入原有密码，再跳转
+    var div_pwd = '<div class="form-control"><label for="password" class="must">旧密码</label><input type="password" id="password" name="password" required></div>';
+    form.innerHTML += div_pwd;
+
+    var submit = '<button id="checkpwd">提交</button>';
+    form.innerHTML += submit;
+    items.appendChild(form);
+
+    var checkpwd = document.getElementById('checkpwd');
+    var passwordField = document.querySelector('#password');
+    checkpwd.onclick = function() {
+        event.preventDefault();
+        
+        $.ajax({
+            method : 'post',
+            url : "../php/info.php",
+            dataType : "text",
+            data : {
+                myAPI : "checkpwd",
+                UserID : userID,
+                Pass : passwordField.value,
+            },
+            success : function(ret) {
+                console.log(ret);   
+                if(ret == "no") {
+                    myAlert('','密码错误',function(){});
+                } else if(ret == "yes") {
+                    items.innerHTML = "";
+                    setNewPwd();
+                }
+            }
+        })
+    }
+}
+
+function setNewPwd() {
+    var items = document.getElementsByClassName('items')[0];
+    var form = document.createElement('form');
+    
+    // 新密码、确认密码
+    var div_pwd = '<div class="form-control"><label for="password" class="must">密码</label><span id="password-strength">密码强度：</span><span id="weak" class="strength">弱</span><span id="medium" class="strength">中</span><span id="strong" class="strength">强</span><input type="password" id="password" name="password" required><div id="passwordError" class="error"></div></div>';
+    form.innerHTML += div_pwd;
+
+    var div_cfmpwd = '<div class="form-control"><label for="password" class="must">确认密码</label><input type="password" id="confirm-password" name="confirm-password" required><div id="confirm-passwordError" class="error"></div></div>';
+    form.innerHTML += div_cfmpwd;
+
+    var submit = '<button id="savepwd">提交</button>';
+    form.innerHTML += submit;
+    items.appendChild(form);
+
+    var passwordField = document.querySelector('#password');
+    var confirmPasswordField = document.querySelector('#confirm-password');
+
+    var password = document.getElementById('password');
+    password.oninput = function(){
+      var passwordError = document.getElementById('passwordError');
+      if (passwordField.value.length == 0) {
+        passwordError.textContent = "请输入密码";
+        passwordError.style.display = 'block';
+      } else if(passwordField.value.length < 8) {
+        passwordError.textContent = "密码至少8位";
+        passwordError.style.display = 'block';
+      } else if(passwordField.value.length > 30) {
+        passwordError.textContent = "密码不应超过30位";
+        passwordError.style.display = 'block';
+      } else if(!isValidPassword(passwordField.value)) {
+        passwordError.textContent = "密码中含有非法字符 * ~ ` # $ % & \\ \' \" ; ? 空格";
+        passwordError.style.display = 'block';
+      } else {
+        passwordError.style.display = 'none';
+        var level = passwordStrengthLevel(passwordField.value);
+        if(birthdayPwd(passwordField.value)) {
+            passwordError.textContent = "密码中含有生日，建议修改";
+            passwordError.style.display = 'block';
+        }
+        if(level == 1) {
+          passwordError.textContent = "密码强度低，可使用字母数字下划线组合";
+          passwordError.style.display = 'block';
+        }
+        changeStrengthCSS(level);
+      }
+      //TOkDO: 密码强弱提示
+    }
+
+    var password_conf = document.getElementById('confirm-password');
+    password_conf.onblur = function(){
+      var confirmPasswordError = document.getElementById('confirm-passwordError');
+      if (!isValidConfirmPassword(passwordField.value, confirmPasswordField.value)) {
+        confirmPasswordError.textContent = "两次输入的密码不匹配";
+        confirmPasswordError.style.display = 'block';
+      } else {
+        confirmPasswordError.style.display = 'none';
+      }
+    }
+
+    var savepwd = document.getElementById('savepwd');
+    savepwd.onclick = function() {
+        event.preventDefault();
+        
+        if (!isValidPassword(passwordField.value) || passwordField.value.length<8 || passwordField.value.length>30) {
+            myAlert('','请输入合法的密码！',function(){});
+            return;
+        }
+        if (!isValidConfirmPassword(passwordField.value, confirmPasswordField.value)) {
+            myAlert('','两次输入的密码不匹配！',function(){});
+            return;
+        }
+
+        $.ajax({
+            method : 'post',
+            url : "../php/info.php",
+            dataType : "text",
+            data : {
+                myAPI : "savepwd",
+                UserID : userID,
+                Pass : passwordField.value,
+            },
+            success : function(ret) {
+                console.log(ret);   
+                // if(ret == "no") {
+                //     myAlert('','密码错误',function(){});
+                // } else if(ret == "yes") {
+                //     items.innerHTML = "";
+                //     setNewPwd();
+                // }
+                if(ret == "success") {
+                    displayAlert('success','修改成功！',1500);
+                    setTimeout(function(){window.location.href='../html/info.html';},1500);
+                }
+            }
+        })
+    }
+}
+
 var nationalities = [
-    "中国",
+    "阿根廷",
+    "巴基斯坦",
+    "巴西",
+    "波兰",
+    "丹麦",
+    "德国",
+    "俄罗斯",
+    "埃及",
+    "法国",
+    "菲律宾",
+    "哈萨克斯坦",
+    "韩国",
+    "荷兰",
     "美国",
-    "加拿大",
+    "日本",
+    "瑞士",
+    "沙特阿拉伯",
+    "乌克兰",
+    "希腊",
+    "新加坡",
+    "西班牙",
+    "意大利",
+    "印度",
     "英国",
-    "法国"
+    "智利",
+    "中国",
 ];
 
+//TO-DO:
+function birthdayPwd(password) {
+    var birthday = document.getElementById('birthday');
+    if(birthday.lastChild!="<br>") {
+        var day = birthday.innerText.split('-');
+        var banned = day[1]+day[2];
+        console.log(banned);
+        return password.includes(banned);
+    }
+    return false;
+}
+
+function isValidPassword(password) {
+    var banned = /^[a-zA-Z0-9_-]+[^ *~`#$%&\\'";?$\x22]+$/;
+    return banned.test(password);
+}
+
+function passwordStrengthLevel(password) {
+    var level = 0;
+    if (/[a-z]/.test(password)) level++;
+    if (/[A-Z]/.test(password)) level++;
+    if (/\d/.test(password)) level++;
+    if(/[^0-9a-zA-Z]/.test(password)) level++;
+    return level;
+}
+
+function changeStrengthCSS(level) {
+    var weak = document.getElementById('weak');
+    var medium = document.getElementById('medium');
+    var strong = document.getElementById('strong');
+    switch(level) {
+      case 0:
+        weak.className=medium.className=strong.className="strength";
+        break;
+      case 1:
+        weak.className="weak";
+        medium.className=strong.className="strength";
+        break;
+      case 2:
+        weak.className=medium.className="medium";
+        strong.className="strength";
+        break;
+      case 3:
+      case 4:
+        weak.className=medium.className=strong.className="strong"; 
+        break;
+    }
+}
+
+function isValidConfirmPassword(password, confirmPassword) {
+    return password === confirmPassword;
+}
+
+function isValidUsername(username) {
+    var regex = /^[a-zA-Z0-9_-]+$/;
+    return regex.test(username);
+}
 
 function isValidEmail(email) {
     var regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;

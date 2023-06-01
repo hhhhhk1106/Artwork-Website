@@ -78,7 +78,7 @@ if (isset($_POST['PaintingID'])){
             //$ImageFileName = $_POST['ImageFileName'];
 
             // echo "UPDATEOK";
-            // TODO: 修改
+            // TOkDO: 修改
             // 作者，流派，其他
             $sql_id = "SELECT ArtistID FROM paintings WHERE `PaintingID` = $PaintingID";
             $row = $conn->query($sql_id)->fetch_assoc();
@@ -127,7 +127,7 @@ if (isset($_GET['myAPI'])){
 
     if($myAPI == "update") {
         // echo "UPDATEOK";
-        // TODO: 获取painting信息，补充作者名，补充流派，补充图片？
+        // TOkDO: 获取painting信息，补充作者名，补充流派，补充图片？
         $stmt = $conn->prepare("SELECT * FROM paintings WHERE PaintingID = ?");
         $stmt->bind_param("i", $PaintingID);
         $stmt->execute();
